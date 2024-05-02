@@ -35,12 +35,12 @@ class OptionAdapter(
     override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
         val option = option[position]
         holder.binding.option = option
-        if (option?.additionalPrice == null) {
+        if (option?.price == null) {
             holder.binding.additionalPriceTv.visibility = View.GONE
         }
 
         holder.binding.additionalPriceTv.text = holder.itemView.context.getString(
-            R.string.peso, "%.2f".format(option?.additionalPrice))
+            R.string.peso, "%.2f".format(option?.price))
 
         holder.binding.checkBox.setOnClickListener {
             if (selectedPosition == position) {

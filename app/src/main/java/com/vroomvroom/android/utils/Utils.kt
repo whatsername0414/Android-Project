@@ -314,6 +314,6 @@ object Utils {
     }
 
     fun getImageUrl(imageName: String): String {
-        return "http://192.168.1.9:5000/public/images/${imageName}"
+        return "http://192.168.1.5:5000/public/images/${imageName}"
     }
 }

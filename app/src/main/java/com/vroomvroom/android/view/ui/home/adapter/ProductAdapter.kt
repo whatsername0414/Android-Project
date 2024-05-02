@@ -34,7 +34,7 @@ class ProductAdapter(
 
         Glide
             .with(holder.itemView.context)
-            .load(getImageUrl(product?.productImgUrl.orEmpty()))
+            .load(getImageUrl(product?.image.orEmpty()))
             .into(holder.binding.orderProductImage)
 
         holder.binding.productPrice.text = holder.itemView.context.getString(

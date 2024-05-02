@@ -1,5 +1,6 @@
 package com.vroomvroom.android.view.ui.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
         holder.binding.merchant = merchant
         Glide
             .with(holder.itemView.context)
-            .load(getImageUrl(merchant.img_url))
+            .load(getImageUrl(merchant.image))
             .placeholder(R.drawable.ic_placeholder)
             .into(holder.binding.merchantImg)
 
@@ -73,14 +74,8 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
         }
 
         holder.binding.restaurantCategories.text = merchant.categories.appendCategories()
-        if (merchant.isOpen) {
-            holder.binding.cardView.isClickable = true
-            holder.binding.cardView.setOnClickListener {
-                onMerchantClicked?.invoke(merchant)
-            }
-        } else {
-            holder.binding.closedGroup.visibility = View.VISIBLE
-            holder.binding.cardView.isClickable = false
+        holder.binding.cardView.setOnClickListener {
+            onMerchantClicked?.invoke(merchant)
         }
     }
 

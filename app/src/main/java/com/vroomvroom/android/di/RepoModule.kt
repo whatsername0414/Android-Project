@@ -47,40 +47,6 @@ object RepoModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(preferences: UserPreferences): OkHttpClient {
-        val interceptor = Interceptor { chain ->
-            val token = runBlocking { preferences.token.first() }
-            val request = chain.request().newBuilder()
-            if (!token.isNullOrBlank()) {
-                request.addHeader("Authorization", "Bearer $token")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("Connection","close")
-            }
-            chain.proceed(request.build())
-        }
-        val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        return OkHttpClient.Builder()
-            .readTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(logger)
-            .addInterceptor(interceptor)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun getRetrofitInstance(httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://192.168.1.9:5000/api/v1/")
-            .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    @Singleton
-    @Provides
     fun provideDatabase(
         @ApplicationContext app: Context
     ) = Room.databaseBuilder(

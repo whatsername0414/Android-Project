@@ -31,7 +31,7 @@ object CartItemMapper {
 
     fun mapFromDomainModelList(model: Map<String, Option>, productId: Int?): List<CartItemOptionEntity> {
         return model.map { (key, value) ->
-            CartItemOptionEntity(null, value.name, value.additionalPrice, key, productId)
+            CartItemOptionEntity(null, value.name, value.price, key, productId)
         }
     }
 }

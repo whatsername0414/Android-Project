@@ -7,11 +7,11 @@ import com.vroomvroom.android.utils.Utils.parseStringToTime
 class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
     override fun mapToDomainModel(model: MerchantDto): Merchant {
         return Merchant(
-            id = model._id,
+            id = model.id,
             name = model.name,
-            img_url = model.img_url,
-            categories = model.categories,
-            productSections = mapToProductSections(model.product_sections),
+            image = model.image,
+            categories = model.categories.map { it.name },
+            productSections = mapToProductSections(model.productSections),
             rates = model.rates,
             ratings = model.ratings,
             favorite = model.favorite,
@@ -28,7 +28,7 @@ class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
     ): List<ProductSections>? {
         return productSectionsDto?.map {
             ProductSections(
-                id = it._id,
+                id = it.id,
                 name = it.name,
                 products = mapToProducts(it.products)
             )
@@ -38,12 +38,12 @@ class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
     private fun mapToProducts(products: List<ProductDto>): List<Product> {
         return products.map {
             Product(
-                id = it._id,
+                id = it.id,
                 name = it.name,
-                productImgUrl = it.product_img_url,
+                image = it.image,
                 price = it.price,
                 description = it.description,
-                optionSections = mapToOptionSection(it.option_sections)
+                optionSections = mapToOptionSection(it.optionSections)
             )
         }
     }
@@ -62,7 +62,7 @@ class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
         return choices.map {
             Option(
                 name = it.name,
-                additionalPrice = it.additional_price
+                price = it.price
             )
         }
     }
@@ -70,11 +70,11 @@ class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
     private fun mapToReview(reviews: List<ReviewDto>?): List<Review>? {
         return reviews?.map {
             Review(
-                id = it._id,
-                userId = it.user_id,
+                id = it.id,
+                userId = it.userId,
                 rate = it.rate,
                 comment = it.comment,
-                createdAt = parseStringToTime(it.created_at, DEFAULT_SERVER_TIME_FORMAT)
+                createdAt = parseStringToTime(it.createdAt, DEFAULT_SERVER_TIME_FORMAT)
             )
         }
     }
@@ -82,10 +82,10 @@ class MerchantMapper : DomainMapper<MerchantDto, Merchant> {
     override fun mapToDomainModelList(model: List<MerchantDto>): List<Merchant> {
         return model.map {
             Merchant(
-                id = it._id,
+                id = it.id,
                 name = it.name,
-                img_url = it.img_url,
-                categories = it.categories,
+                image = it.image,
+                categories = it.categories.map { item -> item.name },
                 productSections = null,
                 rates = it.rates,
                 ratings = it.ratings,

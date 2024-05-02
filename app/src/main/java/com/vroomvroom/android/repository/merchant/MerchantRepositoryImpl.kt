@@ -13,7 +13,6 @@ class MerchantRepositoryImpl @Inject constructor(
     private val service: MerchantService,
     private val merchantMapper: MerchantMapper
 ) : MerchantRepository, BaseRepository()  {
-    //TODO handle error body response
 
     override suspend fun getCategories(type: String): Resource<List<Category>>? {
         var data: Resource<List<Category>>? = null

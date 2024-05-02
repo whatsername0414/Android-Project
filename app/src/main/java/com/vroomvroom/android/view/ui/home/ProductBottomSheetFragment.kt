@@ -46,7 +46,7 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
         val product = navArgs.product
         Glide
             .with(this)
-            .load(getImageUrl(product.productImgUrl.orEmpty()))
+            .load(getImageUrl(product.image.orEmpty()))
             .placeholder(R.drawable.ic_placeholder)
             .into(binding.bottomSheetProductImg)
 
@@ -101,11 +101,11 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
 
     private fun onButtonClicked(product: Product, currentMerchant: Merchant) {
         val optionTotalPrice = homeViewModel.choseOptions.map {(_, value) ->
-            value }.sumOf { it.additionalPrice ?: 0.0}
+            value }.sumOf { it.price ?: 0.0}
         val cart = mapToCartItemEntity(
             product.id,
             product.name,
-            product.productImgUrl,
+            product.image,
             (product.price + optionTotalPrice) * quantity,
             quantity,
             binding.instructionInputEditText.text?.toString().orEmpty(),

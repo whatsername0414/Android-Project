@@ -157,7 +157,7 @@ class MerchantFragment : BaseFragment<FragmentMerchantBinding>(
                 else "Reviews"})" else "0.0"
         Glide
             .with(this)
-            .load(getImageUrl(merchant.img_url))
+            .load(getImageUrl(merchant.image))
             .placeholder(R.drawable.ic_placeholder)
             .into(binding.merchantImg)
     }

@@ -8,7 +8,7 @@ import kotlinx.parcelize.RawValue
 data class Merchant(
     val id: String,
     val name: String,
-    val img_url: String,
+    val image: String,
     val categories: List<String>,
     val productSections: @RawValue List<ProductSections>?,
     val rates: Int?,
@@ -31,7 +31,7 @@ data class ProductSections(
 data class Product(
     val id: String,
     val name: String,
-    val productImgUrl: String?,
+    val image: String?,
     val price: Double,
     val description: String?,
     val optionSections: @RawValue List<OptionSections>?
@@ -45,7 +45,7 @@ data class OptionSections(
 
 data class Option(
     val name: String,
-    val additionalPrice: Double?
+    val price: Double?
 )
 
 data class Review(

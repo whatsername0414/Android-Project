@@ -4,16 +4,58 @@ import com.vroomvroom.android.data.api.AuthService
 import com.vroomvroom.android.data.api.MerchantService
 import com.vroomvroom.android.data.api.OrderService
 import com.vroomvroom.android.data.api.UserService
+import com.vroomvroom.android.repository.local.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ServiceModule {
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(preferences: UserPreferences): OkHttpClient {
+        val interceptor = Interceptor { chain ->
+            val token = runBlocking { preferences.token.first() }
+            val request = chain.request().newBuilder()
+            if (!token.isNullOrBlank()) {
+                request.addHeader("Authorization", "Bearer $token")
+                    .addHeader("content-type", "application/json")
+                    .addHeader("Connection","close")
+            }
+            chain.proceed(request.build())
+        }
+        val logger = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(logger)
+            .addInterceptor(interceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun getRetrofitInstance(httpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://192.168.1.5:5000/api/v1/")
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
     @Singleton
     @Provides
