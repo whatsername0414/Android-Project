@@ -65,6 +65,7 @@
     <string name="cash_on_delivery">Cash On Delivery</string>
     <string name="payment_methods">Choose method</string>
     <string name="gcash">GCash</string>
+    <string name="maya">Maya</string>
     <string name="verification">Verify Your Number</string>
     <string name="we_will_send_you_an_otp_on_this_mobile_number">We will send you an OTP on this mobile.</string>
     <string name="ph_phone_code">+63</string>
@@ -151,6 +152,7 @@
     <string name="dislike">Dislike</string>
     <string name="like">Like</string>
     <string name="share_your_thoughts">Share us your thoughts</string>
+    <string name="enter_reference_id">Reference ID</string>
     <string name="submit">Submit</string>
     <string name="search_for_shop_restaurant">Search for shops &amp; restaurants</string>
     <string name="search_location">Search location</string>

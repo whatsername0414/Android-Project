@@ -16,7 +16,7 @@ import com.vroomvroom.android.utils.Constants.ADD_TO_FAVORITES
 import com.vroomvroom.android.utils.Constants.REMOVE_FROM_FAVORITES
 import com.vroomvroom.android.utils.Utils.getImageUrl
 import com.vroomvroom.android.utils.Utils.setSafeOnClickListener
-import com.vroomvroom.android.utils.Utils.stringBuilder
+import com.vroomvroom.android.utils.Utils.appendCategories
 import com.vroomvroom.android.utils.Utils.timeFormatter
 
 class MerchantDiffUtil : DiffUtil.ItemCallback<Merchant>() {
@@ -72,7 +72,7 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
             holder.binding.favoriteLayout.visibility = View.GONE
         }
 
-        holder.binding.restaurantCategories.text = merchant.categories.stringBuilder()
+        holder.binding.restaurantCategories.text = merchant.categories.appendCategories()
         if (merchant.isOpen) {
             holder.binding.cardView.isClickable = true
             holder.binding.cardView.setOnClickListener {
@@ -81,9 +81,6 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
         } else {
             holder.binding.closedGroup.visibility = View.VISIBLE
             holder.binding.cardView.isClickable = false
-            holder.binding.preorderBtn.setOnClickListener {
-                onMerchantClicked?.invoke(merchant)
-            }
         }
     }
 

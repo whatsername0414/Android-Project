@@ -94,7 +94,6 @@
                     android:padding="@dimen/dp_4"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_minus"
-                    android:background="@drawable/bg_gray_ccc_rounded_8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/product_image"
                     app:layout_constraintTop_toBottomOf="@+id/product_price"/>
@@ -120,7 +119,6 @@
                         android:padding="@dimen/dp_4"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_add"
-                        android:background="@drawable/bg_gray_ccc_rounded_8dp"
                         app:layout_constraintBottom_toBottomOf="@+id/decreaseQuantity"
                         app:layout_constraintStart_toEndOf="@+id/quantity"
                         app:layout_constraintTop_toTopOf="@+id/decreaseQuantity"
@@ -132,7 +130,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_16"
                     android:layout_gravity="center"
-                    android:background="@drawable/bg_gray_ccc_rounded_8dp"
                     android:padding="@dimen/dp_4"
                     android:src="@drawable/ic_trash"
                     app:layout_constraintBottom_toBottomOf="@+id/decreaseQuantity"

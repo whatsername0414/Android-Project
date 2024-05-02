@@ -12,12 +12,12 @@ apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.vroomvroom.android"
         minSdk 24
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

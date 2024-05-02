@@ -23,7 +23,6 @@
             android:id="@+id/ctl_merchant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             app:expandedTitleTextAppearance="@style/Toolbar.TitleTextExpanded"
             app:collapsedTitleTextAppearance="@style/Toolbar.TitleText"
             app:contentScrim="?attr/colorOnPrimary"

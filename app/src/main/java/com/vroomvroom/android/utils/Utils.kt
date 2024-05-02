@@ -187,12 +187,8 @@ object Utils {
         )
     }
 
-    fun List<String?>.stringBuilder(): StringBuilder {
-        val categoryList = StringBuilder()
-        this.forEach { category ->
-            categoryList.append("$category • ")
-        }
-        return categoryList
+    fun List<String?>.appendCategories(): String {
+        return this.joinToString(" • ")
     }
 
     fun timeFormatter(time: Int): String {
@@ -318,6 +314,6 @@ object Utils {
     }
 
     fun getImageUrl(imageName: String): String {
-        return "http://192.168.1.10:5000/public/images/${imageName}"
+        return "http://192.168.1.9:5000/public/images/${imageName}"
     }
 }

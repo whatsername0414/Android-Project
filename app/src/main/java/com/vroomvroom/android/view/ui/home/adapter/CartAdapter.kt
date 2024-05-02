@@ -1,7 +1,6 @@
 package com.vroomvroom.android.view.ui.home.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -47,27 +46,19 @@ class CartAdapter: ListAdapter<CartItemWithOptions, CartViewHolder>(CartDiffUtil
             merchantId = cartItem.cartMerchant.merchantId,
             merchantName = cartItem.cartMerchant.merchantName
         )
-        val increaseQuantityCartItem = CartItemEntity(
-            productId = cartItem.productId,
+        val increaseQuantityCartItem = cartItem.copy(
             cartMerchant = merchant,
-            name = cartItem.name,
-            productImgUrl = cartItem.productImgUrl,
             price = cartItem.price + (cartItem.price / cartItem.quantity),
             quantity = cartItem.quantity + 1,
-            specialInstructions = cartItem.specialInstructions
         )
         holder.binding.increaseQuantity.setOnClickListener {
             onCartItemClicked?.invoke(increaseQuantityCartItem)
         }
 
-        val decreaseQuantityCartItem = CartItemEntity(
-            productId = cartItem.productId,
+        val decreaseQuantityCartItem = cartItem.copy(
             cartMerchant = merchant,
-            name = cartItem.name,
-            productImgUrl = cartItem.productImgUrl,
             price = cartItem.price - (cartItem.price / cartItem.quantity),
             quantity = cartItem.quantity - 1,
-            specialInstructions = cartItem.specialInstructions
         )
         holder.binding.decreaseQuantity.setOnClickListener {
             if (cartItem.quantity > 1) {

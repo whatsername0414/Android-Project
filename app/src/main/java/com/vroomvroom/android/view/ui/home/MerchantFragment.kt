@@ -22,7 +22,7 @@ import com.vroomvroom.android.data.model.merchant.ProductSections
 import com.vroomvroom.android.utils.OnProductClickListener
 import com.vroomvroom.android.utils.Utils.getImageUrl
 import com.vroomvroom.android.utils.Utils.onReady
-import com.vroomvroom.android.utils.Utils.stringBuilder
+import com.vroomvroom.android.utils.Utils.appendCategories
 import com.vroomvroom.android.utils.Utils.timeFormatter
 import com.vroomvroom.android.view.resource.Resource
 import com.vroomvroom.android.view.ui.base.BaseFragment
@@ -147,7 +147,7 @@ class MerchantFragment : BaseFragment<FragmentMerchantBinding>(
     @SuppressLint("SetTextI18n")
     private fun dataBinder(merchant: Merchant) {
         binding.ctlMerchant.title = merchant.name
-        binding.categoriesTv.text = merchant.categories.stringBuilder()
+        binding.categoriesTv.text = merchant.categories.appendCategories()
         binding.ratingBar.rating = merchant.ratings?.toFloat() ?: 0f
         binding.timeTv.text = getString(
             R.string.time, timeFormatter(merchant.opening), timeFormatter(merchant.closing))

@@ -57,7 +57,7 @@ class LocationViewModel @Inject constructor(
                     coordinates.longitude,
                     1
                 )
-                if (addresses.isNotEmpty()) {
+                if (!addresses.isNullOrEmpty()) {
                     _address.postValue(addresses.firstOrNull())
                 }
             } catch (e: Exception) {

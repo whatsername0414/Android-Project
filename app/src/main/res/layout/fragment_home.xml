@@ -183,7 +183,8 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginHorizontal="@dimen/margin_big"
                 android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
                 tools:listitem="@layout/item_merchant" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

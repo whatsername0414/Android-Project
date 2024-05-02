@@ -1,6 +1,7 @@
 package com.vroomvroom.android.view.ui.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,7 @@ abstract class BaseBottomSheetFragment<VB: ViewBinding> (
         if (_binding == null)
             throw IllegalArgumentException("Binding cannot be null")
         binding.root.setBackgroundResource(R.drawable.bg_white_fff_rounded_24dp_top)
+        Log.d("FragmentName", this::class.simpleName.toString())
         return binding.root
     }
 

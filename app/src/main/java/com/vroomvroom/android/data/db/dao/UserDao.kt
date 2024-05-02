@@ -25,8 +25,8 @@ interface UserDao {
     suspend fun insertLocation(locationEntity: LocationEntity)
     @Update
     suspend fun updateLocation(locationEntity: LocationEntity)
-    @Query("UPDATE location_table SET currentUse = :current_use")
-    suspend fun updateLocations(current_use: Boolean = false): Int
+    @Query("UPDATE location_table SET currentUse = :currentUse")
+    suspend fun updateLocations(currentUse: Boolean = false): Int
     @Delete
     suspend fun deleteLocation(locationEntity: LocationEntity)
     @Query("DELETE FROM location_table")
