@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.local.entity.user.AddressEntity
 import com.vroomvroom.android.databinding.FragmentRegisterBinding
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.utils.Utils.hideSoftKeyboard
@@ -24,7 +24,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
     FragmentRegisterBinding::inflate
 ) {
 
-    private var currentLocation: LocationEntity? = null
     private var emailAddress:String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +33,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         binding.appBarLayout.toolbar.setupToolbar()
         prevDestinationId = navController.previousBackStackEntry?.destination?.id ?: -1
 
-        observeLocation()
         observeToken()
         observeNewLogInUser()
         observeRegisterUser()
@@ -134,17 +132,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         }
     }
 
-    private fun observeLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { locations ->
-            currentLocation = locations?.firstOrNull { it.currentUse }
-        }
-    }
-
     private fun observeToken() {
         authViewModel.token.observe(viewLifecycleOwner) { token ->
             if (token != null) {
-                currentLocation?.let { authViewModel.register(it,
-                    mainActivityViewModel.fcmToken.orEmpty()) }
+                authViewModel.register(mainActivityViewModel.fcmToken.orEmpty())
             }
         }
     }
@@ -174,8 +165,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                         when (type) {
                             ClickType.POSITIVE -> {
                                 loadingDialog.show(getString(R.string.loading))
-                                currentLocation?.let { authViewModel.register(it,
-                                    mainActivityViewModel.fcmToken.orEmpty()) }
+                                authViewModel.register(mainActivityViewModel.fcmToken.orEmpty())
                                 dialog.dismiss()
                             }
                             ClickType.NEGATIVE -> Unit

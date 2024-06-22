@@ -6,7 +6,7 @@
     <data>
         <variable
             name="address"
-            type="com.vroomvroom.android.data.model.user.LocationEntity" />
+            type="com.vroomvroom.android.data.model.user.Address" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +57,7 @@
                         android:id="@+id/textView24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{address.address ?? `Street not provided`}"
+                        android:text="@{address.street ?? `Street not provided`}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textSize="16sp"
                         tools:text="363 Tomas Cabiles St" />
@@ -73,7 +73,7 @@
                         android:id="@+id/textView28"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{address.addInfo ?? `Additional Info: None`}"
+                        android:text="@{address.additionalInfo ?? `Additional Info: None`}"
                         tools:text="Near Kubo Grill" />
                 </LinearLayout>
 

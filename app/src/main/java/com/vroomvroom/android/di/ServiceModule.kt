@@ -1,10 +1,12 @@
 package com.vroomvroom.android.di
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vroomvroom.android.data.api.AuthService
 import com.vroomvroom.android.data.api.MerchantService
 import com.vroomvroom.android.data.api.OrderService
 import com.vroomvroom.android.data.api.UserService
-import com.vroomvroom.android.repository.local.UserPreferences
+import com.vroomvroom.android.repository.address.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +17,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -49,11 +51,22 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun getRetrofitInstance(httpClient: OkHttpClient): Retrofit {
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun getRetrofitInstance(
+        httpClient: OkHttpClient,
+        moshi: Moshi,
+    ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.5:5000/api/v1/")
+            .baseUrl("http://192.168.1.12:5000/api/v1/")
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
 

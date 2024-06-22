@@ -89,14 +89,14 @@
                 android:layout_marginBottom="8dp"
                 app:layout_collapseMode="parallax">
 
-                <TextView
-                    android:id="@+id/categoriesTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/white"
-                    tools:text="Restaurant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/categoriesTv"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    tools:text="Restaurant"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"/>-->
 
                 <TextView
                     android:id="@+id/timeTv"
@@ -105,7 +105,7 @@
                     android:layout_marginStart="@dimen/dp_4"
                     android:textColor="@color/white"
                     tools:text="7:00 am - 8:00 pm"
-                    app:layout_constraintStart_toEndOf="@+id/categoriesTv"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <RatingBar
@@ -116,7 +116,7 @@
                     android:numStars="5"
                     android:stepSize=".5"
                     tools:rating="4.5"
-                    app:layout_constraintTop_toBottomOf="@+id/categoriesTv"
+                    app:layout_constraintTop_toBottomOf="@+id/timeTv"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
@@ -141,7 +141,7 @@
             android:overScrollMode="never"
             app:tabIndicatorFullWidth="false"
             app:tabMode="scrollable"
-            app:tabRippleColor="#fcbdbd"
+            app:tabRippleColor="@android:color/transparent"
             app:tabTextAppearance="@style/CustomTextAppearance" />
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -173,7 +173,7 @@
         android:id="@+id/cart_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginHorizontal="@dimen/margin_large"
+        android:layout_marginHorizontal="@dimen/margin_big"
         android:layout_marginBottom="@dimen/dp_32"
         android:layout_marginTop="@dimen/dp_8"
         android:visibility="gone"

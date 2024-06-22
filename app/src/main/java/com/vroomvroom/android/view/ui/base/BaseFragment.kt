@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.CommonNoticeLayoutBinding
 import com.vroomvroom.android.data.model.merchant.Merchant
-import com.vroomvroom.android.data.model.user.UserEntity
+import com.vroomvroom.android.data.local.entity.user.UserEntity
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.utils.Constants
 import com.vroomvroom.android.utils.Utils.safeNavigate
@@ -93,11 +93,11 @@ abstract class BaseFragment<VB: ViewBinding> (
                     if (response.data) {
                         if (direction == Constants.ADD_TO_FAVORITES) {
                             showShortSnackBar("Added to favorites")
-                            merchant.favorite = true
+                            merchant.isFavorite = true
                             merchantAdapter.notifyItemChanged(position, merchant)
                         } else {
                             showShortSnackBar("Removed from favorites")
-                            merchant.favorite = false
+                            merchant.isFavorite = false
                             merchantAdapter.notifyItemChanged(position, merchant)
                         }
                     } else {

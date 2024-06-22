@@ -5,8 +5,8 @@ import com.vroomvroom.android.repository.auth.AuthRepository
 import com.vroomvroom.android.repository.auth.AuthRepositoryImpl
 import com.vroomvroom.android.repository.cart.CartRepository
 import com.vroomvroom.android.repository.cart.CartRepositoryImpl
-import com.vroomvroom.android.repository.local.RoomRepository
-import com.vroomvroom.android.repository.local.RoomRepositoryImpl
+import com.vroomvroom.android.repository.address.AddressRepository
+import com.vroomvroom.android.repository.address.AddressRepositoryImpl
 import com.vroomvroom.android.repository.merchant.MerchantRepository
 import com.vroomvroom.android.repository.merchant.MerchantRepositoryImpl
 import com.vroomvroom.android.repository.order.OrderRepository
@@ -50,7 +50,7 @@ abstract class ViewModelModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun roomRepository(repo: RoomRepositoryImpl) : RoomRepository
+    abstract fun roomRepository(repo: AddressRepositoryImpl) : AddressRepository
 
     @Binds
     @ViewModelScoped

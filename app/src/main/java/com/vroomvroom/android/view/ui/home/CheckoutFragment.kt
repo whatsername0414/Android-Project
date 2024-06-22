@@ -1,6 +1,7 @@
 package com.vroomvroom.android.view.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,8 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.order.Payment
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.databinding.FragmentCheckoutBinding
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.utils.Constants
@@ -45,7 +45,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
 
     private var map: GoogleMap? = null
     private var mapView: MapView? = null
-    private var locationEntity: LocationEntity? = null
+    private var address: Address? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,7 +100,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
     private fun observeRoomCartItemLiveData() {
         homeViewModel.cartItem.observe(viewLifecycleOwner) { items ->
             checkoutAdapter.submitList(items)
-            checkoutViewModel.subtotal = items.sumOf { it.cartItem.price }
+            checkoutViewModel.subtotal = items.sumOf { it.cartItem.price.toDouble() }
             binding.checkoutMerchant.text = items.first().cartItem.cartMerchant.merchantName
             binding.checkoutSubTotalTv.text =
                 getString(R.string.peso, "%.2f".format(checkoutViewModel.subtotal))
@@ -110,14 +110,16 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
     private fun initPolyline() {
         activityHomeViewModel.merchant.observe(viewLifecycleOwner) { res ->
             if (res is Resource.Success) {
-                locationViewModel.userLocation.observe(viewLifecycleOwner) { locations ->
-                    locationEntity = locations.find { it.currentUse }
-                    locationEntity?.let {
+                locationViewModel.allAddress.observe(viewLifecycleOwner) { userAddress ->
+                    address = userAddress.find { it.currentUse }
+                    address?.let {
                         updateLocationViews(it)
                         val point1 =
                             LatLng(it.latitude, it.longitude)
-                        val point2 = LatLng(res.data.location?.get(0) ?: 0.0,
-                            res.data.location?.get(1) ?: 0.0)
+                        val point2 = LatLng(
+                            res.data.address[0],
+                            res.data.address[1]
+                        )
                         val boundsBuilder = LatLngBounds.Builder()
                             .include(point1)
                             .include(point2)
@@ -138,7 +140,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
             if (!confirmed) {
                 binding.btnPlaceOrder.text = getString(R.string.confirm_address)
                 binding.btnPlaceOrder.setOnClickListener {
-                    locationEntity?.let {
+                    address?.let {
                         checkoutViewModel.isLocationConfirmed.postValue(true)
                     }
                 }
@@ -149,16 +151,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                 binding.btnPlaceOrder.setOnClickListener {
                     val cartItems = homeViewModel.cartItem.value
                     val merchant = cartItems?.first()?.cartItem?.cartMerchant
-                   if (cartItems != null && locationEntity != null) {
+                   if (cartItems != null && address != null) {
                        checkoutViewModel.createOrder(
                            merchant?.merchantId.orEmpty(),
-                           Payment(
-                               mainActivityViewModel.paymentMethod.value ?: CASH_ON_DELIVERY,
-                               null
-                           ),
-                           49.00,
-                           checkoutViewModel.subtotal,
-                           locationEntity!!,
+                           58f,
+                           address!!,
                            cartItems
                        )
                    }
@@ -174,6 +171,7 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                     loadingDialog.show(getString(R.string.creating_order))
                 }
                 is Resource.Success -> {
+                    Log.d("OrderId", "Order ID: ${response.data}")
                     homeViewModel.cartItem.removeObservers(viewLifecycleOwner)
                     homeViewModel.deleteAllCartItem()
                     loadingDialog.dismiss()
@@ -184,7 +182,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                             getString(R.string.placed_order_message),
                             getString(R.string.view_order),
                             CompleteType.CHECKOUT,
-                            response.data))
+                            response.data)
+                    )
                 }
                 is Resource.Error -> {
                     loadingDialog.dismiss()
@@ -226,13 +225,13 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
         map?.uiSettings?.isZoomControlsEnabled = false
     }
 
-    private fun updateLocationViews(locationEntity: LocationEntity) {
-        val coordinates = LatLng(locationEntity.latitude, locationEntity.longitude)
+    private fun updateLocationViews(address: Address) {
+        val coordinates = LatLng(address.latitude, address.longitude)
         map.setMap(requireContext(), coordinates)
         binding.checkoutAddress.text =
-            locationEntity.address ?: getString(R.string.street_not_provided)
+            address.street ?: getString(R.string.street_not_provided)
         binding.checkoutCity.text =
-            locationEntity.city ?: getString(R.string.city_not_provided)
+            address.city ?: getString(R.string.city_not_provided)
     }
 
     private fun handleError() {
@@ -247,16 +246,11 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                 ClickType.POSITIVE -> {
                     val cartItems = homeViewModel.cartItem.value
                     val merchant = cartItems?.first()?.cartItem?.cartMerchant
-                    locationEntity?.let {
+                    address?.let {
                         checkoutViewModel.createOrder(
                             merchant?.merchantId.orEmpty(),
-                            Payment(
-                                mainActivityViewModel.paymentMethod.value ?: CASH_ON_DELIVERY,
-                                null
-                            ),
-                            49.00,
-                            checkoutViewModel.subtotal,
-                            locationEntity!!,
+                            58f,
+                            address!!,
                             cartItems.orEmpty()
                         )
                     }

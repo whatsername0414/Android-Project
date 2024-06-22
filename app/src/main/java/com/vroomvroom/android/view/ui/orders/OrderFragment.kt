@@ -3,7 +3,7 @@ package com.vroomvroom.android.view.ui.orders
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.vroomvroom.android.data.model.order.Status
+import com.vroomvroom.android.data.enums.OrderStatus
 import com.vroomvroom.android.databinding.FragmentOrderBinding
 import com.vroomvroom.android.utils.Utils.safeNavigate
 import com.vroomvroom.android.view.resource.Resource
@@ -19,15 +19,15 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 ) {
 
     private val orderAdapter by lazy { OrderAdapter() }
-    private lateinit var status: Status
+    private lateinit var orderStatus: OrderStatus
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        status = arguments?.getParcelable(STATUS) ?: Status.PENDING
+        orderStatus = arguments?.getParcelable(STATUS) ?: OrderStatus.PENDING
         binding.ordersRv.adapter = orderAdapter
         observeOrdersByStatusLiveData()
         observeIsRefreshed()
-        ordersViewModel.getOrdersByStatus(status)
+        ordersViewModel.getOrdersByStatus(orderStatus)
 
         orderAdapter.onMerchantClicked = { merchant ->
             if (merchant.id.isNotBlank()) {
@@ -42,7 +42,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             )
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            ordersViewModel.getOrdersByStatus(status)
+            ordersViewModel.getOrdersByStatus(orderStatus)
             mainActivityViewModel.isRefreshed.postValue(true)
         }
     }
@@ -74,9 +74,12 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
                     binding.ordersRv.visibility = View.GONE
-                    binding.commonNoticeLayout.showNetworkError {
-                        ordersViewModel.getOrdersByStatus(status) }
                     binding.swipeRefreshLayout.isRefreshing = false
+                    binding.commonNoticeLayout.showNetworkError(
+                        listener = {
+                            ordersViewModel.getOrdersByStatus(orderStatus)
+                        }
+                    )
                 }
             }
         }
@@ -85,7 +88,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     private fun observeIsRefreshed() {
         mainActivityViewModel.isRefreshed.observe(viewLifecycleOwner) { refreshed ->
             if (refreshed) {
-                ordersViewModel.getOrdersByStatus(status)
+                ordersViewModel.getOrdersByStatus(orderStatus)
             }
         }
     }
@@ -97,11 +100,11 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
          * current won't use anymore
          */
         fun newInstance(
-            status: Status
+            orderStatus: OrderStatus
         ): OrderFragment {
             val fragment = OrderFragment()
             val bundle = Bundle()
-            bundle.putParcelable(STATUS, status)
+            bundle.putParcelable(STATUS, orderStatus)
             fragment.arguments = bundle
             return fragment
         }

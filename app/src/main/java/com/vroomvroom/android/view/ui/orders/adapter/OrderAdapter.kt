@@ -7,29 +7,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.order.Merchant
-import com.vroomvroom.android.data.model.order.OrderDto
+import com.vroomvroom.android.data.model.merchant.Merchant
+import com.vroomvroom.android.data.model.order.Order
 import com.vroomvroom.android.databinding.ItemOrderBinding
 import com.vroomvroom.android.utils.Utils.toUppercase
 
-class OrdersDiffUtil: DiffUtil.ItemCallback<OrderDto>() {
+class OrdersDiffUtil: DiffUtil.ItemCallback<Order>() {
     override fun areItemsTheSame(
-        oldItem: OrderDto,
-        newItem: OrderDto
+        oldItem: Order,
+        newItem: Order
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: OrderDto,
-        newItem: OrderDto
+        oldItem: Order,
+        newItem: Order
     ): Boolean {
         return oldItem == newItem
     }
 
 }
 
-class OrderAdapter: ListAdapter<OrderDto, OrderViewHolder>(OrdersDiffUtil()) {
+class OrderAdapter: ListAdapter<Order, OrderViewHolder>(OrdersDiffUtil()) {
 
     var onMerchantClicked: ((Merchant) -> Unit)? = null
     var onOrderClicked: ((String) -> Unit)? = null
@@ -46,15 +46,16 @@ class OrderAdapter: ListAdapter<OrderDto, OrderViewHolder>(OrdersDiffUtil()) {
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = getItem(position)
+        val subtotal = order.products.sumOf { it.price.toDouble() }
         holder.binding.order = order
-        val subTotal = order.orderDetail.totalPrice + order.orderDetail.deliveryFee
+        val total = subtotal + order.deliveryFee
         holder.binding.apply {
-            statusTv.text = order.status.label
+            statusTv.text = order.status.name
                 .toUppercase()
                 .replace(",", " ")
-            subtotal.text = holder.itemView.context.getString(
-                R.string.peso, "%.2f".format(subTotal))
-            val orderProductAdapter = OrderProductAdapter(order.orderDetail.products)
+            totalTv.text = holder.itemView.context.getString(
+                R.string.peso, "%.2f".format(total))
+            val orderProductAdapter = OrderProductAdapter(order.products)
             orderProductRv.adapter = orderProductAdapter
 
             orderMerchantLayout.setOnClickListener {

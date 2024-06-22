@@ -2,12 +2,11 @@ package com.vroomvroom.android.view.ui.location
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentAddressBottomSheetBinding
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.view.ui.base.BaseBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,9 +22,9 @@ class AddressBottomSheetFragment : BaseBottomSheetFragment<FragmentAddressBottom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        locationViewModel.userLocation.observe(viewLifecycleOwner){}
+        locationViewModel.allAddress.observe(viewLifecycleOwner){}
 
-        binding.localityInputEditText.setText(args.location.city)
+        binding.localityInputEditText.setText(args.address.city)
         binding.btnSave.setOnClickListener {
             val street = binding.streetInputEditText.text
             val city = binding.localityInputEditText.text
@@ -33,13 +32,15 @@ class AddressBottomSheetFragment : BaseBottomSheetFragment<FragmentAddressBottom
             if (!street.isNullOrBlank()) {
                 if (!city.isNullOrBlank()) {
                     locationViewModel.insertLocation(
-                        LocationEntity(
-                        address = street.toString(),
+                        Address(
+                        street = street.toString(),
                         city = city.toString(),
-                        addInfo = addInfo?.toString(),
-                        latitude = args.location.latitude,
-                        longitude = args.location.longitude,
-                        currentUse = true))
+                        additionalInfo = addInfo?.toString(),
+                        latitude = args.address.latitude,
+                        longitude = args.address.longitude,
+                        currentUse = true
+                        )
+                    )
                     navigate()
                 } else {
                     binding.localityInputLayout.helperText = "required"

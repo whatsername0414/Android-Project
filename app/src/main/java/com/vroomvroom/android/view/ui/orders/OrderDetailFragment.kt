@@ -7,8 +7,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentOrderDetailBinding
-import com.vroomvroom.android.data.model.order.OrderDto
-import com.vroomvroom.android.data.model.order.Status
+import com.vroomvroom.android.data.enums.OrderStatus
+import com.vroomvroom.android.data.model.order.Order
 import com.vroomvroom.android.utils.Constants.SUCCESS
 import com.vroomvroom.android.utils.Constants.FORMAT_DD_MMM_YYYY_HH_MM_SS
 import com.vroomvroom.android.utils.Utils.formatStringToDate
@@ -63,6 +63,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
         ordersViewModel.order.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
+                    binding.commonNoticeLayout.hideNotice()
                     binding.orderDetailLayout.visibility = View.GONE
                     binding.shimmerLayout.visibility = View.VISIBLE
                     binding.shimmerLayout.startShimmer()
@@ -72,7 +73,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
                     binding.orderDetailLayout.visibility = View.VISIBLE
                     val order = response.data
                     ordersViewModel.merchantId = order.merchant.id
-                    binding.statusTv.text = order.status.label
+                    binding.statusTv.text = order.status.name
                         .toUppercase()
                         .replace(",", " ")
                     updateButtonModify(order)
@@ -89,17 +90,19 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
                     binding.orderDetailLayout.visibility = View.GONE
                     binding.shimmerLayout.visibility = View.GONE
                     binding.shimmerLayout.stopShimmer()
-                    binding.commonNoticeLayout.showNetworkError {
-                        ordersViewModel.getOrder(args.orderId)
-                    }
+                    binding.commonNoticeLayout.showNetworkError(
+                        listener =  {
+                            ordersViewModel.getOrder(args.orderId)
+                        }
+                    )
                 }
             }
         }
     }
 
-    private fun updateButtonModify(order: OrderDto) {
+    private fun updateButtonModify(order: Order) {
         when (order.status.ordinal) {
-            Status.PENDING.ordinal -> {
+            OrderStatus.PENDING.ordinal -> {
                 binding.btnModifyOrder.text = getString(R.string.cancel)
                 binding.btnModifyOrder.setOnClickListener {
                     navController.navigate(
@@ -107,7 +110,7 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
                     )
                 }
             }
-            Status.CONFIRMED.ordinal -> {
+            OrderStatus.CONFIRMED.ordinal -> {
                 binding.btnModifyOrder.text = getString(R.string.change_address)
                 binding.btnModifyOrder.setOnClickListener {
                     navController.navigate(
@@ -115,8 +118,8 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
                     )
                 }
             }
-            Status.DELIVERED.ordinal -> {
-                if (order.reviewed) {
+            OrderStatus.DELIVERED.ordinal -> {
+                if (order.isReviewed) {
                     binding.btnModifyOrder.visibility = View.GONE
                 } else {
                     binding.btnModifyOrder.text = getString(R.string.write_review)
@@ -147,16 +150,17 @@ class OrderDetailFragment : BaseFragment<FragmentOrderDetailBinding>(
         )
     }
 
-    private fun updateViewsOnDataReady(order: OrderDto) {
+    private fun updateViewsOnDataReady(order: Order) {
+        val totalPrice = order.products.sumOf { it.price.toDouble() }
+        val total = totalPrice + order.deliveryFee
         binding.apply {
             this.order = order
             subTotalTv.text =
-                getString(R.string.peso, "%.2f".format(order.orderDetail.totalPrice))
+                getString(R.string.peso, "%.2f".format(totalPrice))
             deliveryFee.text =
-                getString(R.string.peso, "%.2f".format(order.orderDetail.deliveryFee))
-            val total = order.orderDetail.totalPrice + order.orderDetail.deliveryFee
+                getString(R.string.peso, "%.2f".format(order.deliveryFee))
             totalTv.text = getString(R.string.peso, "%.2f".format(total))
-            orderProductRv.adapter = OrderProductAdapter(order.orderDetail.products)
+            orderProductRv.adapter = OrderProductAdapter(order.products)
             placedDate.text =
                 getString(R.string.placed_on,
                     formatStringToDate(order.createdAt, FORMAT_DD_MMM_YYYY_HH_MM_SS))

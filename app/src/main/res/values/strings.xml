@@ -154,7 +154,7 @@
     <string name="share_your_thoughts">Share us your thoughts</string>
     <string name="enter_reference_id">Reference ID</string>
     <string name="submit">Submit</string>
-    <string name="search_for_shop_restaurant">Search for shops &amp; restaurants</string>
+    <string name="search_for_shop_restaurant">Search for restaurants, cuisines, deserts…</string>
     <string name="search_location">Search location</string>
     <string name="all_categories">All Categories</string>
     <string name="terms_and_conditions">Terms &amp; Conditions</string>
@@ -211,6 +211,7 @@
     <string name="congratulations">Congratulations!</string>
     <string name="verified_phone_message">You have successfully verified your mobile number!</string>
     <string name="confirm_number">Please confirm if the number is correct</string>
+    <string name="paid_by">Paid by Cash On Delivery</string>
     <string name="change">Change</string>
     <string name="empty_number_message">Please input phone number</string>
     <string name="mapbox_access_token">sk.eyJ1Ijoid2g0dHNlcm5hbWUiLCJhIjoiY2wyZnRmM3ZsMGIwZzNjcnp3Y3o1ZTJnayJ9.q_8JuLr0P80Ycz3Gs-2Zfg</string>

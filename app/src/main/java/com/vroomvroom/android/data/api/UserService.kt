@@ -1,19 +1,19 @@
 package com.vroomvroom.android.data.api
 
 import com.vroomvroom.android.data.model.BaseResponse
-import com.vroomvroom.android.data.model.user.UserDto
+import com.vroomvroom.android.data.remote.response.UserResponse
 import retrofit2.Response
 import retrofit2.http.*
 
 interface UserService {
 
     @GET("users/me")
-    suspend fun getUser(): Response<BaseResponse<UserDto>>
+    suspend fun getUser(): Response<BaseResponse<UserResponse>>
 
     @PATCH("users/me/update-name")
     suspend fun updateName(
         @Body body: Map<String, String>
-    ): Response<BaseResponse<UserDto>>
+    ): Response<BaseResponse<UserResponse>>
 
     @POST("users/me/phone-otp")
     suspend fun registerPhoneNumber(
@@ -23,7 +23,7 @@ interface UserService {
     @POST("users/me/verify-phone-otp")
     suspend fun verifyOtp(
         @Body body: Map<String, String>
-    ): Response<BaseResponse<UserDto>>
+    ): Response<BaseResponse<UserResponse>>
 
 
 }

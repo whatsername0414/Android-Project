@@ -10,6 +10,7 @@ import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.ItemReviewBinding
 import com.vroomvroom.android.data.model.merchant.Review
 import com.vroomvroom.android.utils.Constants.FORMAT_DD_MMM_YYYY_HH_MM_SS
+import com.vroomvroom.android.utils.Utils.formatStringToDate
 import com.vroomvroom.android.utils.Utils.parseTimeToString
 
 class ReviewDiffUtil: DiffUtil.ItemCallback<Review>() {
@@ -44,7 +45,7 @@ class ReviewAdapter: ListAdapter<Review, ReviewViewHolder>(ReviewDiffUtil()) {
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         val review = getItem(position)
         holder.binding.review = review
-        val createdAt = parseTimeToString(review.createdAt, FORMAT_DD_MMM_YYYY_HH_MM_SS)
+        val createdAt = formatStringToDate(review.createdAt, FORMAT_DD_MMM_YYYY_HH_MM_SS)
         holder.binding.tvCreatedAt.text = createdAt
     }
 }

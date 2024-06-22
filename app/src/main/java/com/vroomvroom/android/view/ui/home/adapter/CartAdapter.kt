@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.ItemCartBinding
-import com.vroomvroom.android.data.model.cart.CartItemEntity
-import com.vroomvroom.android.data.model.cart.CartItemWithOptions
-import com.vroomvroom.android.data.model.cart.CartMerchantEntity
+import com.vroomvroom.android.data.local.entity.cart.CartItemEntity
+import com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions
+import com.vroomvroom.android.data.local.entity.cart.CartMerchantEntity
 import com.vroomvroom.android.utils.Utils.getImageUrl
 
 class CartAdapter: ListAdapter<CartItemWithOptions, CartViewHolder>(CartDiffUtil()) {
@@ -33,10 +33,10 @@ class CartAdapter: ListAdapter<CartItemWithOptions, CartViewHolder>(CartDiffUtil
         holder.binding.cartItemWithChoice = cartItemWithChoice
         Glide
             .with(holder.itemView.context)
-            .load(getImageUrl(cartItemWithChoice.cartItem.productImgUrl.orEmpty()))
+            .load(getImageUrl(cartItemWithChoice.cartItem.image))
             .placeholder(R.drawable.ic_placeholder)
             .into(holder.binding.productImage)
-        val optionList = cartItemWithChoice.cartItemOptions?.map { "${it.optionType}: ${it.name}" }
+        val optionList = cartItemWithChoice.cartItemOptions?.map { "${it.type}: ${it.name}" }
         holder.binding.productDescription.text = optionList?.joinToString(", ")
         holder.binding.productPrice.text = holder.itemView.context.getString(
             R.string.peso, "%.2f".format(cartItemWithChoice.cartItem.price))

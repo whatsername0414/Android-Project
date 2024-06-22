@@ -1,7 +1,7 @@
 package com.vroomvroom.android.repository.user
 
 import androidx.lifecycle.LiveData
-import com.vroomvroom.android.data.model.user.UserEntity
+import com.vroomvroom.android.data.local.entity.user.UserEntity
 import com.vroomvroom.android.view.resource.Resource
 
 interface UserRepository {

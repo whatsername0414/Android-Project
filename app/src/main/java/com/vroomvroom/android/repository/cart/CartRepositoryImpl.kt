@@ -1,8 +1,9 @@
 package com.vroomvroom.android.repository.cart
 
-import com.vroomvroom.android.data.db.dao.CartItemDAO
-import com.vroomvroom.android.data.model.cart.CartItemEntity
-import com.vroomvroom.android.data.model.cart.CartItemMapper.mapFromDomainModelList
+import android.util.Log
+import com.vroomvroom.android.data.local.dao.CartItemDAO
+import com.vroomvroom.android.data.local.entity.cart.CartItemEntity
+import com.vroomvroom.android.data.mapper.toCartItemOptionEntity
 import com.vroomvroom.android.data.model.merchant.Option
 import javax.inject.Inject
 
@@ -13,8 +14,8 @@ class CartRepositoryImpl @Inject constructor (
         return cartItemDAO.insertCartItem(cartItemEntity)
     }
     override suspend fun insertCartItemOptions(options: Map<String, Option>, productId: Int) {
-        val cartItemOptions = mapFromDomainModelList(options, productId)
-            cartItemDAO.insertCartItemOptions(cartItemOptions)
+        val cartItemOptions = options.map { it.value.toCartItemOptionEntity(it.key, productId) }
+        cartItemDAO.insertCartItemOptions(cartItemOptions)
     }
     override suspend fun updateCartItem(cartItemEntity: CartItemEntity) =
         cartItemDAO.updateCartItem(cartItemEntity)

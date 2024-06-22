@@ -6,7 +6,7 @@
     <data>
         <variable
             name="cartItem"
-            type="com.vroomvroom.android.data.model.cart.CartItemEntity" />
+            type="com.vroomvroom.android.data.local.entity.cart.CartItemEntity" />
         <import type="android.view.View"/>
     </data>
 
@@ -18,8 +18,7 @@
             android:id="@+id/checkout_product_cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginHorizontal="@dimen/margin_big"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="16dp"
@@ -38,7 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="@dimen/margin_small"
+                    android:layout_marginVertical="@dimen/margin_big"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -65,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_8"
-                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_16"
                         android:maxLines="3"
                         android:text="@{cartItem.name}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -86,11 +85,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginVertical="@dimen/margin_small"
-                        android:background="@drawable/bg_gray_f2f_rounded_100dp"
-                        android:paddingStart="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="4dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/black"
                         android:textSize="14sp" />

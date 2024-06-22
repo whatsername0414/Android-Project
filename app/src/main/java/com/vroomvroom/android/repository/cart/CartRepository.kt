@@ -1,8 +1,8 @@
 package com.vroomvroom.android.repository.cart
 
 import androidx.lifecycle.LiveData
-import com.vroomvroom.android.data.model.cart.CartItemEntity
-import com.vroomvroom.android.data.model.cart.CartItemWithOptions
+import com.vroomvroom.android.data.local.entity.cart.CartItemEntity
+import com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions
 import com.vroomvroom.android.data.model.merchant.Option
 
 interface CartRepository {

@@ -7,22 +7,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vroomvroom.android.R
+import com.vroomvroom.android.data.model.search.Search
 import com.vroomvroom.android.databinding.ItemSearchBinding
-import com.vroomvroom.android.data.model.search.SearchEntity
 import com.vroomvroom.android.utils.ClickType
 
-class SearchDiffUtil: DiffUtil.ItemCallback<SearchEntity>() {
-    override fun areItemsTheSame(oldItem: SearchEntity, newItem: SearchEntity): Boolean {
+class SearchDiffUtil: DiffUtil.ItemCallback<Search>() {
+    override fun areItemsTheSame(oldItem: Search, newItem: Search): Boolean {
         return oldItem.searchTerm == newItem.searchTerm
     }
-    override fun areContentsTheSame(oldItem: SearchEntity, newItem: SearchEntity): Boolean {
+    override fun areContentsTheSame(oldItem: Search, newItem: Search): Boolean {
         return oldItem == newItem
     }
 }
 
-class SearchAdapter : ListAdapter<SearchEntity, SearchViewHolder>(SearchDiffUtil()) {
+class SearchAdapter : ListAdapter<Search, SearchViewHolder>(SearchDiffUtil()) {
 
-    var listener: ((ClickType, SearchEntity, Int) -> Unit)? = null
+    var listener: ((ClickType, Search, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val binding: ItemSearchBinding = DataBindingUtil.inflate(

@@ -9,7 +9,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentLocationBottomSheetBinding
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.utils.Constants.MAPVIEW_BUNDLE_KEY
 import com.vroomvroom.android.utils.Utils.setMap
 import com.vroomvroom.android.view.ui.base.BaseBottomSheetFragment
@@ -42,7 +42,7 @@ class LocationBottomSheetFragment : BaseBottomSheetFragment<FragmentLocationBott
     }
 
     private fun observeUserLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { userLocation ->
+        locationViewModel.allAddress.observe(viewLifecycleOwner) { userLocation ->
             val location = userLocation.find { it.currentUse }
             location?.let { updateLocationViews(it) }
         }
@@ -57,13 +57,13 @@ class LocationBottomSheetFragment : BaseBottomSheetFragment<FragmentLocationBott
         mapView?.getMapAsync(this)
     }
 
-    private fun updateLocationViews(locationEntity: LocationEntity) {
-        val coordinates = LatLng(locationEntity.latitude, locationEntity.longitude)
+    private fun updateLocationViews(address: Address) {
+        val coordinates = LatLng(address.latitude, address.longitude)
         map.setMap(requireContext(), coordinates)
         binding.bsAddress.text =
-            locationEntity.address ?: getString(R.string.street_not_provided)
+            address.street ?: getString(R.string.street_not_provided)
         binding.bsCity.text =
-            locationEntity.city ?: getString(R.string.city_not_provided)
+            address.city ?: getString(R.string.city_not_provided)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

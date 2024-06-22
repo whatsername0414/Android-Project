@@ -7,12 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vroomvroom.android.R
+import com.vroomvroom.android.data.model.order.OrderProduct
 import com.vroomvroom.android.databinding.ItemOrderProductBinding
-import com.vroomvroom.android.data.model.order.OrderProductDto
 import com.vroomvroom.android.utils.Utils.getImageUrl
 
 class OrderProductAdapter(
-    private val orderProduct: List<OrderProductDto>
+    private val orderProduct: List<OrderProduct>
 ) : RecyclerView.Adapter<OrderProductAdapter.OrderProductViewHolder>(){
 
     class OrderProductViewHolder(val binding: ItemOrderProductBinding): RecyclerView.ViewHolder(binding.root)
@@ -29,18 +29,18 @@ class OrderProductAdapter(
 
     override fun onBindViewHolder(holder: OrderProductViewHolder, position: Int) {
         val orderProduct = orderProduct[position]
-        holder.binding.orderProduct = orderProduct
+        holder.binding.order = orderProduct
         holder.binding.orderProductPrice.text = holder.itemView.context.getString(
             R.string.peso, "%.2f".format(orderProduct.price))
         Glide
             .with(holder.itemView.context)
-            .load(getImageUrl(orderProduct.productImgUrl.orEmpty()))
+            .load(getImageUrl(orderProduct.product.image))
             .placeholder(R.drawable.ic_placeholder)
             .into(holder.binding.orderProductImage)
 
-        val optionList = orderProduct.options?.map { "${it.optionType}: ${it.name}" }
+        val optionList = orderProduct.options.map { it.name }
 
-        if (!optionList.isNullOrEmpty()) {
+        if (optionList.isNotEmpty()) {
             holder.binding.orderProductOption.text = optionList.joinToString(", ")
         } else holder.binding.orderProductOption.visibility = View.GONE
     }

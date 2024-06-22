@@ -7,11 +7,11 @@ import com.vroomvroom.android.view.resource.Resource
 
 
 interface OnProductClickListener {
-    fun onClick(product: Product)
+    fun onProductClick(product: Product)
 }
 
 interface OnOptionClickListener {
-    fun onClick(option: Option, optionType: String)
+    fun onOptionClick(option: Option, optionType: String)
 }
 
 interface SmsBroadcastReceiverListener {

@@ -33,11 +33,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.maps.android.SphericalUtil
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.user.LocationEntity
 import com.vroomvroom.android.utils.Constants.DEFAULT_SERVER_TIME_FORMAT
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import com.vroomvroom.android.data.model.user.Address as UserAddress
 
 object Utils {
 
@@ -172,14 +172,14 @@ object Utils {
         }
     }
 
-    fun userLocationBuilder(
+    fun userAddressBuilder(
         id: Int? = null,
         address: Address?,
         latLng: LatLng,
-    ): LocationEntity {
-        return LocationEntity(
+    ): UserAddress {
+        return UserAddress(
             id = id,
-            address = address?.thoroughfare,
+            street = address?.thoroughfare,
             city = address?.locality,
             latitude = latLng.latitude,
             longitude = latLng.longitude,
@@ -196,9 +196,9 @@ object Utils {
         val timeSplit = ft.split(":")
         val hour = timeSplit[0].toInt()
         if (hour > 12) {
-            return (hour - 12).toString() + ":${timeSplit[1]}pm"
+            return (hour - 12).toString() + ":${timeSplit[1]} pm"
         }
-        return ft.slice(0..3) + "am"
+        return ft.slice(0..3) + " am"
     }
 
 
@@ -314,6 +314,6 @@ object Utils {
     }
 
     fun getImageUrl(imageName: String): String {
-        return "http://192.168.1.5:5000/public/images/${imageName}"
+        return "http://192.168.1.12:5000/public/images/${imageName}"
     }
 }

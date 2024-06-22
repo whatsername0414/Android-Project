@@ -6,7 +6,7 @@
     <data>
         <variable
             name="order"
-            type="com.vroomvroom.android.data.model.order.OrderDto" />
+            type="com.vroomvroom.android.data.model.order.Order" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_24"
-                android:text="@{`Paid by ` + order.payment.method}"
+                android:text="@string/paid_by"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/statusTv"
                 tools:text="Paid by Cash On Delivery" />
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="@{order.customer.name}"
+                        android:text="@{order.customer.name + ` • ` + order.customer.phone.number}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toEndOf="@+id/imageView11"
                         app:layout_constraintTop_toTopOf="parent"
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="32dp"
-                        android:text="@{order.deliveryAddress.address ?? `Not Provided`}"
+                        android:text="@{order.address.street ?? `Not Provided`}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView11"
                         app:layout_constraintTop_toBottomOf="@+id/textView25"
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text="@{order.deliveryAddress.city ?? `Not Provided`}"
+                        android:text="@{order.address.city ?? `Not Provided`}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView11"
                         app:layout_constraintTop_toBottomOf="@+id/textView19"
@@ -130,7 +130,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dp_16"
                         android:layout_marginTop="@dimen/dp_8"
-                        android:text="@{order.customer.phone.number}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="+639319481202" />

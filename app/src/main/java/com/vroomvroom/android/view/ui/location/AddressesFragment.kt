@@ -1,12 +1,13 @@
 package com.vroomvroom.android.view.ui.location
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentAddressesBinding
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.view.resource.Resource
 import com.vroomvroom.android.view.ui.base.BaseFragment
@@ -65,7 +66,7 @@ class AddressesFragment : BaseFragment<FragmentAddressesBinding>(
     }
 
     private fun observeUserLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { locations ->
+        locationViewModel.allAddress.observe(viewLifecycleOwner) { locations ->
             adapter.submitList(locations)
         }
     }
@@ -129,15 +130,16 @@ class AddressesFragment : BaseFragment<FragmentAddressesBinding>(
         }
     }
 
-    private fun LocationEntity.use(): LocationEntity {
-        return LocationEntity(
-            this.id,
-            this.address,
-            this.city,
-            this.addInfo,
-            this.latitude,
-            this.longitude,
-            true
+    private fun Address.use(): Address {
+        return Address(
+            id = this.id,
+            street = this.street,
+            barangay = this.barangay,
+            city = this.city,
+            additionalInfo = this.additionalInfo,
+            latitude = this.latitude,
+            longitude = this.longitude,
+            currentUse = true
         )
     }
 }

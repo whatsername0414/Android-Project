@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.vroomvroom.android.R
+import com.vroomvroom.android.data.model.merchant.Category
 import com.vroomvroom.android.databinding.ItemBrowseCategoryBinding
 import com.vroomvroom.android.databinding.ItemCategoryBinding
-import com.vroomvroom.android.data.model.merchant.Category
 
 class CategoryDiffUtil: DiffUtil.ItemCallback<Category>() {
     override fun areItemsTheSame(

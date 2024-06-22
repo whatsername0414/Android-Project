@@ -101,8 +101,10 @@ dependencies {
     implementation "com.google.maps.android:android-maps-utils:0.5"
 
     def retrofit_version = "2.9.0"
-    def okhttp3_version = "4.9.3"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.moshi:moshi-kotlin:1.14.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.15.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 }

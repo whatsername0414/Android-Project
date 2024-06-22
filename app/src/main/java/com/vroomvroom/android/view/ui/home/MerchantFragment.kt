@@ -18,11 +18,10 @@ import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentMerchantBinding
 import com.vroomvroom.android.data.model.merchant.Merchant
 import com.vroomvroom.android.data.model.merchant.Product
-import com.vroomvroom.android.data.model.merchant.ProductSections
+import com.vroomvroom.android.data.model.merchant.ProductSection
 import com.vroomvroom.android.utils.OnProductClickListener
 import com.vroomvroom.android.utils.Utils.getImageUrl
 import com.vroomvroom.android.utils.Utils.onReady
-import com.vroomvroom.android.utils.Utils.appendCategories
 import com.vroomvroom.android.utils.Utils.timeFormatter
 import com.vroomvroom.android.view.resource.Resource
 import com.vroomvroom.android.view.ui.base.BaseFragment
@@ -79,7 +78,7 @@ class MerchantFragment : BaseFragment<FragmentMerchantBinding>(
 
     }
 
-    override fun onClick(product: Product) {
+    override fun onProductClick(product: Product) {
         findNavController().navigate(
             MerchantFragmentDirections.actionMerchantFragmentToProductBottomSheetFragment(product))
     }
@@ -147,14 +146,12 @@ class MerchantFragment : BaseFragment<FragmentMerchantBinding>(
     @SuppressLint("SetTextI18n")
     private fun dataBinder(merchant: Merchant) {
         binding.ctlMerchant.title = merchant.name
-        binding.categoriesTv.text = merchant.categories.appendCategories()
-        binding.ratingBar.rating = merchant.ratings?.toFloat() ?: 0f
+        binding.ratingBar.rating = merchant.ratings.toFloat()
         binding.timeTv.text = getString(
             R.string.time, timeFormatter(merchant.opening), timeFormatter(merchant.closing))
-        binding.merchantRating.text =
-            if (merchant.rates != null)
-                "${merchant.ratings ?: 0.0} (${merchant.rates} ${if (merchant.rates == 1) "Review" 
-                else "Reviews"})" else "0.0"
+        binding.merchantRating.text = if (merchant.ratings.isNaN()) "No Reviews" else
+            "${merchant.ratings} (${merchant.reviews.size} ${if (merchant.reviews.size == 1) "Review"
+            else "Reviews"})"
         Glide
             .with(this)
             .load(getImageUrl(merchant.image))
@@ -180,9 +177,9 @@ class MerchantFragment : BaseFragment<FragmentMerchantBinding>(
         }
     }
 
-    private fun initializeTabItem(sections: List<ProductSections>?) {
+    private fun initializeTabItem(sections: List<ProductSection>) {
         binding.tlMerchant.removeAllTabs()
-        sections?.forEach { section ->
+        sections.forEach { section ->
             if (section.products.isNotEmpty()) {
                 binding.tlMerchant.addTab(binding.tlMerchant.newTab().setText(section.name))
             }

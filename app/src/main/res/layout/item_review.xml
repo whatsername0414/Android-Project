@@ -20,7 +20,7 @@
             android:layout_height="0dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="@{review.rate}"
+            android:rating="@{review.rating}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:rating="5" />

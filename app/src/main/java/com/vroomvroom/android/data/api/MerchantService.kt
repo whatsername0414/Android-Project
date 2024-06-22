@@ -2,7 +2,7 @@ package com.vroomvroom.android.data.api
 
 import com.vroomvroom.android.data.model.BaseResponse
 import com.vroomvroom.android.data.model.merchant.Category
-import com.vroomvroom.android.data.model.merchant.MerchantDto
+import com.vroomvroom.android.data.remote.response.MerchantResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -15,17 +15,22 @@ interface MerchantService {
 
     @GET("merchants")
     suspend fun getMerchants(
-        @Query("category") category: String?,
         @Query("searchTerm") searchTerm: String?
-    ): Response<BaseResponse<List<MerchantDto>>>
+    ): Response<BaseResponse<List<MerchantResponse>>>
 
-    @GET("merchants/{id}")
+    @GET("merchants/{path}")
+    suspend fun getMerchants(
+        @Path("path") path: String,
+        @Query("searchTerm") searchTerm: String?
+    ): Response<BaseResponse<List<MerchantResponse>>>
+
+    @GET("merchants/{merchantId}")
     suspend fun getMerchant(
-        @Path("id") id: String
-    ): Response<BaseResponse<MerchantDto>>
+        @Path("merchantId") id: String
+    ): Response<BaseResponse<MerchantResponse>>
 
     @GET("merchants/favorites")
-    suspend fun getFavorites(): Response<BaseResponse<List<MerchantDto>>>
+    suspend fun getFavorites(): Response<BaseResponse<List<MerchantResponse>>>
 
     @PUT("merchants/{id}/favorite")
     suspend fun updateFavorite(

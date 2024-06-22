@@ -5,14 +5,15 @@
 
     <data>
         <variable
-            name="sections"
-            type="com.vroomvroom.android.data.model.merchant.OptionSections" />
+            name="section"
+            type="com.vroomvroom.android.data.model.merchant.OptionSection" />
         <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8">
 
         <TextView
             android:id="@+id/sectionTitle"
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="14sp"
-            android:text="@{sections.name}"
+            android:text="@{section.name}"
             tools:text="Drinks"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -32,7 +33,7 @@
             android:layout_marginStart="@dimen/dp_8"
             android:textSize="11sp"
             android:text="@string/required"
-            android:visibility="@{sections.required ? View.VISIBLE : View.GONE}"
+            android:visibility="@{section.required ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="@+id/sectionTitle"
             app:layout_constraintStart_toEndOf="@+id/sectionTitle"
             app:layout_constraintBottom_toBottomOf="@+id/sectionTitle"/>
@@ -41,7 +42,8 @@
             android:id="@+id/optionSectionRv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_big"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginHorizontal="@dimen/dp_8"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/sectionTitle"
             app:layout_constraintStart_toStartOf="parent"

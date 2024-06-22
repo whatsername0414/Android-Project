@@ -65,10 +65,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getMerchants(category: String? = null, searchTerm: String? = null) {
+    fun getMerchants(
+        category: String? = null,
+        searchTerm: String? = null,
+        isLoggedIn: Boolean = false,
+        ) {
         _merchants.postValue(Resource.Loading)
         viewModelScope.launch(Dispatchers.IO) {
-            val response = merchantRepository.getMerchants(category, searchTerm)
+            val response = merchantRepository.getMerchants(category, searchTerm, isLoggedIn)
             response?.let { data ->
                 when (data) {
                     is Resource.Success -> {

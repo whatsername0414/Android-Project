@@ -19,7 +19,7 @@ import com.vroomvroom.android.utils.Utils.createLocationRequest
 import com.vroomvroom.android.utils.Utils.hasLocationPermission
 import com.vroomvroom.android.utils.Utils.requestLocationPermission
 import com.vroomvroom.android.utils.Utils.safeNavigate
-import com.vroomvroom.android.utils.Utils.userLocationBuilder
+import com.vroomvroom.android.utils.Utils.userAddressBuilder
 import com.vroomvroom.android.view.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -83,7 +83,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(
                         findNavController().safeNavigate(
                             LocationFragmentDirections.
                             actionLocationFragmentToAddressBottomSheetFragment(
-                                userLocationBuilder(
+                                userAddressBuilder(
                                     address = res,
                                     latLng = latLng
                                 )
@@ -91,7 +91,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(
                         )
                     } else {
                         locationViewModel.insertLocation(
-                            userLocationBuilder(
+                            userAddressBuilder(
                                 address = res,
                                 latLng = latLng
                             )
@@ -131,7 +131,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(
     }
 
     private fun observeUserLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { userLocation ->
+        locationViewModel.allAddress.observe(viewLifecycleOwner) { userLocation ->
             if (!userLocation.isNullOrEmpty()) {
                 findNavController().popBackStack()
             }

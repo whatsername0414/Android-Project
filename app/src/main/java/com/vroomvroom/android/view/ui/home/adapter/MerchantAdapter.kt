@@ -1,6 +1,6 @@
 package com.vroomvroom.android.view.ui.home.adapter
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.ItemMerchantBinding
-import com.vroomvroom.android.data.model.user.UserEntity
+import com.vroomvroom.android.data.local.entity.user.UserEntity
 import com.vroomvroom.android.data.model.merchant.Merchant
 import com.vroomvroom.android.utils.Constants.ADD_TO_FAVORITES
 import com.vroomvroom.android.utils.Constants.REMOVE_FROM_FAVORITES
 import com.vroomvroom.android.utils.Utils.getImageUrl
 import com.vroomvroom.android.utils.Utils.setSafeOnClickListener
-import com.vroomvroom.android.utils.Utils.appendCategories
 import com.vroomvroom.android.utils.Utils.timeFormatter
 
 class MerchantDiffUtil : DiffUtil.ItemCallback<Merchant>() {
@@ -52,10 +51,13 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
         return MerchantViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MerchantViewHolder, position: Int) {
         val merchant = getItem(position)
-        holder.binding.openingTv.text = timeFormatter(merchant.opening)
         holder.binding.merchant = merchant
+        holder.binding.rating.text = if (merchant.ratings.isNaN()) "No Reviews" else
+            "${merchant.ratings} (${merchant.reviews.size} ${if (merchant.reviews.size == 1) "Review"
+            else "Reviews"})"
         Glide
             .with(holder.itemView.context)
             .load(getImageUrl(merchant.image))
@@ -63,17 +65,16 @@ class MerchantAdapter: ListAdapter<Merchant, MerchantViewHolder>(MerchantDiffUti
             .into(holder.binding.merchantImg)
 
         if (currentUserEntity != null) {
-            holder.binding.favoriteLayout.visibility = View.VISIBLE
+            holder.binding.checkboxFavorite.visibility = View.VISIBLE
             holder.binding.checkboxFavorite.apply {
                 this.setSafeOnClickListener {
                     setOnFavoriteClick(merchant, position, isChecked)
                 }
             }
         } else {
-            holder.binding.favoriteLayout.visibility = View.GONE
+            holder.binding.checkboxFavorite.visibility = View.GONE
         }
 
-        holder.binding.restaurantCategories.text = merchant.categories.appendCategories()
         holder.binding.cardView.setOnClickListener {
             onMerchantClicked?.invoke(merchant)
         }

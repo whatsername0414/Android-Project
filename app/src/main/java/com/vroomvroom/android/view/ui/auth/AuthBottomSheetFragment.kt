@@ -12,7 +12,7 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.navigation.fragment.findNavController
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentAuthBottomSheetBinding
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.view.resource.Resource
 import com.vroomvroom.android.view.ui.base.BaseBottomSheetFragment
@@ -28,7 +28,6 @@ class AuthBottomSheetFragment : BaseBottomSheetFragment<FragmentAuthBottomSheetB
 
     private lateinit var getSignInWithGoogle : ActivityResultLauncher<Intent>
     private var currentLoginChoice = SignIntType.GOOGLE
-    private var currentLocation: LocationEntity? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +35,6 @@ class AuthBottomSheetFragment : BaseBottomSheetFragment<FragmentAuthBottomSheetB
         binding.textView8.movementMethod = LinkMovementMethod.getInstance()
         binding.textView8.text = Html.fromHtml(getString(R.string.terms_and_policy), FROM_HTML_MODE_COMPACT)
 
-        observeLocation()
         observeToken()
         observeRegisterUser()
         observeNewLoggedInUser()
@@ -68,18 +66,10 @@ class AuthBottomSheetFragment : BaseBottomSheetFragment<FragmentAuthBottomSheetB
         authViewModel.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun observeLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { locations ->
-            currentLocation = locations?.firstOrNull { it.currentUse }
-        }
-    }
-
     private fun observeToken() {
         authViewModel.token.observe(viewLifecycleOwner) { token ->
             if (token != null) {
-                currentLocation?.let {
-                    authViewModel.register(it, mainActivityViewModel.fcmToken.orEmpty())
-                }
+                authViewModel.register(mainActivityViewModel.fcmToken.orEmpty())
             }
         }
     }
@@ -105,8 +95,7 @@ class AuthBottomSheetFragment : BaseBottomSheetFragment<FragmentAuthBottomSheetB
                         when (type) {
                             ClickType.POSITIVE -> {
                                 loadingDialog.show(getString(R.string.loading))
-                                currentLocation?.let { authViewModel.register(it,
-                                        mainActivityViewModel.fcmToken.orEmpty()) }
+                                authViewModel.register(mainActivityViewModel.fcmToken.orEmpty())
                                 dialog.dismiss()
                             }
                             ClickType.NEGATIVE -> Unit

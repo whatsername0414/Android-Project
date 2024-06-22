@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentCartBottomSheetBinding
-import com.vroomvroom.android.data.model.cart.CartItemWithOptions
+import com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions
 import com.vroomvroom.android.data.model.merchant.Merchant
 import com.vroomvroom.android.utils.ClickType
 import com.vroomvroom.android.utils.Utils.safeNavigate
@@ -131,7 +131,7 @@ class CartBottomSheetFragment : BaseBottomSheetFragment<FragmentCartBottomSheetB
                 binding.emptyCartLayout.visibility = View.VISIBLE
             } else {
                 cartAdapter.submitList(items)
-                val subTotal = items.sumOf { it.cartItem.price }
+                val subTotal = items.sumOf { it.cartItem.price.toDouble() }
                 activityHomeViewModel.getMerchant(items.first().cartItem.cartMerchant.merchantId)
                 activityHomeViewModel.currentMerchantId = items.first().cartItem.cartMerchant.merchantId
                 binding.merchantName.text = items.first().cartItem.cartMerchant.merchantName

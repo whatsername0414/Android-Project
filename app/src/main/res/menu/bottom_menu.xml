@@ -6,10 +6,6 @@
         android:title="@string/home"
         android:icon="@drawable/home_scrolled_selector" />
     <item
-        android:id="@+id/browseFragment"
-        android:title="@string/browse"
-        android:icon="@drawable/browser_selector" />
-    <item
         android:id="@+id/ordersFragment"
         android:title="@string/orders"
         android:icon="@drawable/receipt_selector" />

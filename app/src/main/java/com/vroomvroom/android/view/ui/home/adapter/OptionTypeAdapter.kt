@@ -7,21 +7,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.merchant.OptionSections
+import com.vroomvroom.android.data.model.merchant.OptionSection
 import com.vroomvroom.android.databinding.ItemOptionTypeBinding
 import com.vroomvroom.android.utils.OnOptionClickListener
 
-class OptionSectionDiffUtil: DiffUtil.ItemCallback<OptionSections>() {
+class OptionSectionDiffUtil: DiffUtil.ItemCallback<OptionSection>() {
     override fun areItemsTheSame(
-        oldItem: OptionSections,
-        newItem: OptionSections
+        oldItem: OptionSection,
+        newItem: OptionSection
     ): Boolean {
         return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(
-        oldItem: OptionSections,
-        newItem: OptionSections
+        oldItem: OptionSection,
+        newItem: OptionSection
     ): Boolean {
         return oldItem == newItem
     }
@@ -29,7 +29,7 @@ class OptionSectionDiffUtil: DiffUtil.ItemCallback<OptionSections>() {
 
 class OptionSectionAdapter (
     private val listener: OnOptionClickListener
-): ListAdapter<OptionSections, OptionSectionViewHolder>(OptionSectionDiffUtil()) {
+): ListAdapter<OptionSection, OptionSectionViewHolder>(OptionSectionDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionSectionViewHolder {
         val binding: ItemOptionTypeBinding = DataBindingUtil.inflate(
@@ -43,7 +43,7 @@ class OptionSectionAdapter (
 
     override fun onBindViewHolder(holder: OptionSectionViewHolder, position: Int) {
         val optionType = getItem(position)
-        holder.binding.sections = optionType
+        holder.binding.section = optionType
         val productAdapter = OptionAdapter(getItem(position).options, listener)
         productAdapter.setProductOptionType(optionType.name)
         holder.binding.optionSectionRv.adapter = productAdapter

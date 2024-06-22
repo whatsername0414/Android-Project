@@ -29,13 +29,13 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding>(
 
         binding.searchBar.setOnClickListener {
             findNavController().navigate(
-                BrowseFragmentDirections.actionBrowseFragmentToMerchantSearchFragment(null)
+                BrowseFragmentDirections.actionBrowseFragmentToMerchantSearchFragment()
             )
         }
 
         categoryAdapter.onCategoryClicked = { searchTerm ->
             findNavController().navigate(
-                BrowseFragmentDirections.actionBrowseFragmentToMerchantSearchFragment(searchTerm)
+                BrowseFragmentDirections.actionBrowseFragmentToMerchantSearchFragment()
             )
         }
 
@@ -75,9 +75,11 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding>(
                             stopShimmer()
                             visibility = View.GONE
                         }
-                        binding.commonNoticeLayout.showNetworkError {
-                            mainViewModel.getCategories("search")
-                        }
+                        binding.commonNoticeLayout.showNetworkError(
+                            listener = {
+                                mainViewModel.getCategories("search")
+                            }
+                        )
                     }
                 }
             }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.vroomvroom.android.R
+import com.vroomvroom.android.data.enums.OrderStatus
 import com.vroomvroom.android.databinding.FragmentOrdersBinding
 import com.vroomvroom.android.utils.Constants.CONFIRMED
 import com.vroomvroom.android.utils.Constants.CONFIRMED_TAB_POSITION
@@ -62,10 +63,10 @@ class OrdersFragment : BaseFragment<FragmentOrdersBinding>(
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                         when (args.status) {
-                            CONFIRMED -> {
+                            OrderStatus.CONFIRMED -> {
                                 binding.tabLayout.getTabAt(CONFIRMED_TAB_POSITION)?.select()
                             }
-                            TO_RECEIVE -> {
+                            OrderStatus.PICKED_UP -> {
                                 binding.tabLayout.getTabAt(TO_RECEIVE_TAB_POSITION)?.select()
                             }
                             else -> {

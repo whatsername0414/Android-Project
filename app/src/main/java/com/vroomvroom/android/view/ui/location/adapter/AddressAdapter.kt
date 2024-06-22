@@ -8,30 +8,30 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vroomvroom.android.R
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.databinding.ItemAddressBinding
-import com.vroomvroom.android.data.model.user.LocationEntity
 
-class AddressDiffUtil: DiffUtil.ItemCallback<LocationEntity>() {
+class AddressDiffUtil: DiffUtil.ItemCallback<Address>() {
     override fun areItemsTheSame(
-        oldItem: LocationEntity,
-        newItem: LocationEntity
+        oldItem: Address,
+        newItem: Address
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: LocationEntity,
-        newItem: LocationEntity
+        oldItem: Address,
+        newItem: Address
     ): Boolean {
         return oldItem == newItem
     }
 }
 
-class AddressAdapter: ListAdapter<LocationEntity, AddressViewHolder>(AddressDiffUtil()) {
+class AddressAdapter: ListAdapter<Address, AddressViewHolder>(AddressDiffUtil()) {
 
-    var currentUseAddress: ((LocationEntity) -> Unit)? = null
-    var onAddressClicked: ((LocationEntity) -> Unit)? = null
-    var onDeleteClicked: ((LocationEntity) -> Unit)? = null
+    var currentUseAddress: ((Address) -> Unit)? = null
+    var onAddressClicked: ((Address) -> Unit)? = null
+    var onDeleteClicked: ((Address) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
         val binding: ItemAddressBinding = DataBindingUtil.inflate(

@@ -8,8 +8,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.vroomvroom.android.data.db.Database
-import com.vroomvroom.android.repository.local.UserPreferences
+import com.vroomvroom.android.data.local.Database
 import com.vroomvroom.android.utils.Constants.PREFERENCES_STORE_NAME
 import com.vroomvroom.android.utils.Constants.VROOMVROOM_DATABASE
 import dagger.Module
@@ -17,14 +16,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module

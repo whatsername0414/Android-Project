@@ -6,12 +6,13 @@
     <data>
         <variable
             name="search"
-            type="com.vroomvroom.android.data.model.search.SearchEntity" />
+            type="com.vroomvroom.android.data.model.search.Search" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16">
 
         <ImageView
             android:id="@+id/history_icon"

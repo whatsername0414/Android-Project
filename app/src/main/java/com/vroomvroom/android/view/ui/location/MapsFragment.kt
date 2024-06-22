@@ -33,7 +33,7 @@ import com.vroomvroom.android.utils.Utils.hasLocationPermission
 import com.vroomvroom.android.utils.Utils.requestLocationPermission
 import com.vroomvroom.android.utils.Utils.safeNavigate
 import com.vroomvroom.android.utils.Utils.setSafeOnClickListener
-import com.vroomvroom.android.utils.Utils.userLocationBuilder
+import com.vroomvroom.android.utils.Utils.userAddressBuilder
 import com.vroomvroom.android.view.ui.base.BaseFragment
 import com.vroomvroom.android.view.ui.location.adapter.SuggestionAdapter
 import com.vroomvroom.android.view.ui.common.CommonAlertDialog
@@ -188,7 +188,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     private fun saveAddress(prevDestination: Int?) {
         newLatLng?.let { latLng ->
             locationViewModel.insertLocation(
-                userLocationBuilder(address = address, latLng = latLng)
+                userAddressBuilder(address = address, latLng = latLng)
             )
         }
         if (prevDestination == R.id.locationFragment) {
@@ -221,7 +221,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
                     mainActivityViewModel.prevDestination = prevDestination
                     navController.navigate(
                         MapsFragmentDirections.actionMapsFragmentToAddressBottomSheetFragment(
-                            userLocationBuilder(address = address, latLng = newLatLng!!)
+                            userAddressBuilder(address = address, latLng = newLatLng!!)
                         )
                     )
                 } else {
@@ -276,7 +276,7 @@ class MapsFragment : BaseFragment<FragmentMapsBinding>(
     }
 
     private fun observeUserLocation() {
-        locationViewModel.userLocation.observe(viewLifecycleOwner) { userLocation ->
+        locationViewModel.allAddress.observe(viewLifecycleOwner) { userLocation ->
             if (!userLocation.isNullOrEmpty()) {
                 val location = userLocation.find { it.currentUse }
                 location?.let {

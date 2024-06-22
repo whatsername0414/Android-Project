@@ -6,7 +6,7 @@
     <data>
         <variable
             name="order"
-            type="com.vroomvroom.android.data.model.order.OrderDto" />
+            type="com.vroomvroom.android.data.model.order.Order" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
-                    android:src="@drawable/ic_pinned_user"
+                    android:src="@drawable/ic_location_outline"
                     app:layout_constraintBottom_toBottomOf="@+id/textView20"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView19" />
@@ -87,8 +87,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_8"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    android:text="@{order.deliveryAddress.address ?? `Not Provided`}"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:text="@{order.address.street ?? `Not Provided`}"
                     app:layout_constraintEnd_toStartOf="@+id/textView21"
                     app:layout_constraintStart_toEndOf="@+id/imageView11"
                     app:layout_constraintTop_toTopOf="parent"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_8"
                     android:layout_marginBottom="@dimen/dp_8"
-                    android:text="@{order.deliveryAddress.city ?? `Not Provided`}"
+                    android:text="@{order.address.city ?? `Not Provided`}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView19"
@@ -124,15 +124,13 @@
             android:id="@+id/orderProductRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:focusable="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView5"
-            />
+            tools:listitem="@layout/item_order_product"/>
 
         <View
             android:id="@+id/coverView"
@@ -149,14 +147,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_8"
-            android:text="@{order.orderDetail.products.size() > 1 ? `Subtotal(` + order.orderDetail.products.size() + ` Items):` : `Subtotal(` + order.orderDetail.products.size() + ` Item):`}"
+            android:text="@{order.products.size() > 1 ? `Total (` + order.products.size() + ` Items):` : `Subtotal(` + order.products.size() + ` Item):`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toStartOf="@+id/subtotal"
+            app:layout_constraintEnd_toStartOf="@+id/totalTv"
             app:layout_constraintTop_toBottomOf="@+id/orderProductRv"
-            tools:text="Subtotal(1 Item):" />
+            tools:text="Total (1 Item):" />
 
         <TextView
-            android:id="@+id/subtotal"
+            android:id="@+id/totalTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -178,8 +176,9 @@
             android:background="@drawable/bg_gray_f2f_rounded_100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subtotal" />
+            app:layout_constraintTop_toBottomOf="@+id/totalTv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

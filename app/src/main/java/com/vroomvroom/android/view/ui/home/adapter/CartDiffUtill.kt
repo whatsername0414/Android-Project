@@ -1,7 +1,7 @@
 package com.vroomvroom.android.view.ui.home.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.vroomvroom.android.data.model.cart.CartItemWithOptions
+import com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions
 
 class CartDiffUtil: DiffUtil.ItemCallback<CartItemWithOptions>() {
     override fun areItemsTheSame(

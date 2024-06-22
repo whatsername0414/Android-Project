@@ -6,7 +6,7 @@
     <data>
         <variable
             name="cartItemWithChoice"
-            type="com.vroomvroom.android.data.model.cart.CartItemWithOptions" />
+            type="com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
             android:id="@+id/product_cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginHorizontal="@dimen/margin_big"
             android:layout_marginTop="@dimen/dp_2"
             android:layout_marginBottom="@dimen/dp_8"
             app:cardCornerRadius="16dp"
@@ -47,7 +47,7 @@
                     android:id="@+id/product_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_16"
                     android:layout_marginHorizontal="@dimen/margin_small"
                     android:text="@{cartItemWithChoice.cartItem.name}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -74,9 +74,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_8"
                     android:layout_marginTop="@dimen/dp_4"
-                    android:background="@drawable/bg_gray_f2f_rounded_100dp"
-                    android:paddingHorizontal="@dimen/margin_normal"
-                    android:paddingVertical="@dimen/margin_tiny"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/black"
                     android:textSize="14sp"

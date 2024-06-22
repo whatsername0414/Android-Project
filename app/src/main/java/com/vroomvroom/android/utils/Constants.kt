@@ -3,11 +3,11 @@ package com.vroomvroom.android.utils
 object Constants {
     //Names
     const val VROOMVROOM_DATABASE = "vroomvroom_database"
-    const val CART_ITEM_TABLE = "cart_item_table"
+    const val CART_TABLE = "cart_table"
     const val SEARCH_TABLE = "search_table"
-    const val CART_ITEM_OPTION_TABLE = "cart_item_option_table"
+    const val CART_PRODUCT_OPTION_TABLE = "cart_product_option_table"
     const val USER_TABLE = "user_table"
-    const val LOCATION_TABLE = "location_table"
+    const val LOCATION_TABLE = "address_table"
     const val PREFERENCES_STORE_NAME = "user_preferences"
 
     //Identifiers

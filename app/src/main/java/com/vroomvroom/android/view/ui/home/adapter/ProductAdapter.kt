@@ -42,7 +42,7 @@ class ProductAdapter(
 
         holder.binding.root.setOnClickListener {
             product?.let {
-                listener.onClick(it)
+                listener.onProductClick(it)
             }
         }
     }

@@ -47,7 +47,7 @@ class OptionAdapter(
                 holder.binding.checkBox.isChecked = false
                 selectedPosition = -1
             } else {
-                option?.let { listener.onClick(option, optionType.orEmpty()) }
+                option?.let { listener.onOptionClick(option, optionType.orEmpty()) }
                 selectedPosition = holder.bindingAdapterPosition
                 notifyDataSetChanged()
             }

@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vroomvroom.android.data.model.order.OrderDto
-import com.vroomvroom.android.data.model.order.Status
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.enums.OrderStatus
+import com.vroomvroom.android.data.model.order.Order
+import com.vroomvroom.android.data.local.entity.user.AddressEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.repository.order.OrderRepository
 import com.vroomvroom.android.view.resource.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,12 +32,12 @@ class OrdersViewModel @Inject constructor(
     val isReviewCreated: LiveData<Resource<Boolean>>
         get() = _isReviewCreated
 
-    private val _orders by lazy { MutableLiveData<Resource<List<OrderDto>>>() }
-    val orders: LiveData<Resource<List<OrderDto>>>
+    private val _orders by lazy { MutableLiveData<Resource<List<Order>>>() }
+    val orders: LiveData<Resource<List<Order>>>
         get() = _orders
 
-    private val _order by lazy { MutableLiveData<Resource<OrderDto>>() }
-    val order: LiveData<Resource<OrderDto>>
+    private val _order by lazy { MutableLiveData<Resource<Order>>() }
+    val order: LiveData<Resource<Order>>
         get() = _order
 
     lateinit var merchantId: String
@@ -62,10 +63,10 @@ class OrdersViewModel @Inject constructor(
 //        }
 //    }
 
-    fun getOrdersByStatus(status: Status) {
+    fun getOrdersByStatus(orderStatus: OrderStatus) {
         _orders.postValue(Resource.Loading)
         viewModelScope.launch(Dispatchers.IO) {
-            val response = orderRepository.getOrders(status)
+            val response = orderRepository.getOrders(orderStatus)
             response?.let { data ->
                 when (data) {
                     is Resource.Success -> {
@@ -104,13 +105,13 @@ class OrdersViewModel @Inject constructor(
 
     fun updateOrderAddress(
         orderId: String,
-        location: LocationEntity
+        address: Address
     ) {
         _isAddressUpdated.postValue(Resource.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             val response = orderRepository.updateOrderAddress(
                 orderId,
-                location
+                address
             )
             response?.let { data ->
                 when (data) {

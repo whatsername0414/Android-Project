@@ -1,12 +1,13 @@
 package com.vroomvroom.android.view.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vroomvroom.android.data.model.cart.CartItemWithOptions
-import com.vroomvroom.android.data.model.order.Payment
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.local.entity.cart.CartItemWithOptions
+import com.vroomvroom.android.data.local.entity.user.AddressEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.repository.order.OrderRepository
 import com.vroomvroom.android.view.resource.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,16 +28,14 @@ class CheckoutViewModel @Inject constructor(
 
     fun createOrder(
         merchantId: String,
-        payment: Payment,
-        deliveryFee: Double,
-        totalPrice: Double,
-        locationEntity: LocationEntity,
+        deliveryFee: Float,
+        address: Address,
         cartItems: List<CartItemWithOptions>
     ) {
         _order.postValue(Resource.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             val response = orderRepository.createOrders(
-                merchantId, payment, deliveryFee, totalPrice, locationEntity, cartItems)
+                merchantId, deliveryFee, address, cartItems)
             response?.let { data ->
                 when (data) {
                     is Resource.Success -> {

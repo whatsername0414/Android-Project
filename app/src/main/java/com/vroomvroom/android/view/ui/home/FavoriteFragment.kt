@@ -78,9 +78,11 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(
                     binding.favoriteShimmerLayout.visibility = View.GONE
                     binding.favoriteShimmerLayout.stopShimmer()
                     binding.favoriteRv.visibility = View.GONE
-                    binding.commonNoticeLayout.showNetworkError {
-                        mainViewModel.getFavorites()
-                    }
+                    binding.commonNoticeLayout.showNetworkError(
+                        listener = {
+                            mainViewModel.getFavorites()
+                        }
+                    )
                 }
             }
         }

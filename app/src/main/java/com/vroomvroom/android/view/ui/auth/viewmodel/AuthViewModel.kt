@@ -5,9 +5,10 @@ import androidx.lifecycle.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseUser
-import com.vroomvroom.android.data.model.user.LocationEntity
+import com.vroomvroom.android.data.local.entity.user.AddressEntity
+import com.vroomvroom.android.data.model.user.Address
 import com.vroomvroom.android.repository.auth.AuthRepository
-import com.vroomvroom.android.repository.local.UserPreferences
+import com.vroomvroom.android.repository.address.UserPreferences
 import com.vroomvroom.android.repository.services.FirebaseAuthRepository
 import com.vroomvroom.android.repository.user.UserRepository
 import com.vroomvroom.android.utils.SmsBroadcastReceiver
@@ -156,10 +157,10 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun register(locationEntity: LocationEntity, fcmToken: String) {
+    fun register(fcmToken: String) {
         _isRegistered.postValue(Resource.Loading)
         viewModelScope.launch(Dispatchers.IO) {
-            val response = authRepository.register(locationEntity, fcmToken)
+            val response = authRepository.register(fcmToken)
             response.let { data ->
                 when (data) {
                     is Resource.Success -> {

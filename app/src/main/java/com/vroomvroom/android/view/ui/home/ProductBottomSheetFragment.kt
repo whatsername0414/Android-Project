@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.vroomvroom.android.R
-import com.vroomvroom.android.data.model.cart.CartItemMapper.mapToCartItemEntity
+import com.vroomvroom.android.data.mapper.toCartItemEntity
 import com.vroomvroom.android.data.model.merchant.Merchant
 import com.vroomvroom.android.data.model.merchant.Option
 import com.vroomvroom.android.data.model.merchant.Product
@@ -46,7 +46,7 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
         val product = navArgs.product
         Glide
             .with(this)
-            .load(getImageUrl(product.image.orEmpty()))
+            .load(getImageUrl(product.image))
             .placeholder(R.drawable.ic_placeholder)
             .into(binding.bottomSheetProductImg)
 
@@ -57,7 +57,7 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
         optionSectionAdapter.submitList(product.optionSections)
         required = product.optionSections?.filter { it.required }?.size
         checkRequired()
-        binding.bottomSheetTextDescription.isVisible = !product.description.isNullOrBlank()
+        binding.bottomSheetTextDescription.isVisible = product.description.isNotBlank()
 
         binding.btnAddToCart.setOnClickListener {
             val cartItems = homeViewModel.cartItem.value.orEmpty()
@@ -101,16 +101,16 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
 
     private fun onButtonClicked(product: Product, currentMerchant: Merchant) {
         val optionTotalPrice = homeViewModel.choseOptions.map {(_, value) ->
-            value }.sumOf { it.price ?: 0.0}
-        val cart = mapToCartItemEntity(
-            product.id,
-            product.name,
-            product.image,
-            (product.price + optionTotalPrice) * quantity,
-            quantity,
-            binding.instructionInputEditText.text?.toString().orEmpty(),
-            currentMerchant.id,
-            currentMerchant.name
+            value }.sumOf { it.price.toDouble()}
+        val cart = toCartItemEntity(
+            productId = product.id,
+            name = product.name,
+            image = product.image,
+            price = ((product.price + optionTotalPrice) * quantity).toFloat(),
+            quantity = quantity,
+            notes = binding.instructionInputEditText.text?.toString().orEmpty(),
+            merchantId = currentMerchant.id,
+            merchantName = currentMerchant.name
         )
         homeViewModel.insertCartItem(cart)
     }
@@ -131,7 +131,7 @@ class ProductBottomSheetFragment : BaseBottomSheetFragment<FragmentProductBottom
         }
     }
 
-    override fun onClick(option: Option, optionType: String) {
+    override fun onOptionClick(option: Option, optionType: String) {
         homeViewModel.choseOptions[optionType] = option
         checkRequired()
     }

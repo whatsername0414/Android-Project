@@ -54,7 +54,7 @@
             tools:text="Jollibee Tabaco" />
 
         <TextView
-            android:id="@+id/location_detail_bottom_sheet"
+            android:id="@+id/locationDetailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
@@ -66,28 +66,26 @@
             app:drawableStartCompat="@drawable/ic_location_outline" />
 
         <TextView
-            android:id="@+id/linearLayout6"
+            android:id="@+id/ratingTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
-            android:text="@{merchant.rates != null ? Double.valueOf(merchant.ratings).toString() + `(` + merchant.rates + ` ratings)` : `0.0`}"
             tools:text="4.6 (44 ratings)"
             android:drawablePadding="@dimen/dp_8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location_detail_bottom_sheet"
+            app:layout_constraintTop_toBottomOf="@+id/locationDetailTextView"
             app:drawableStartCompat="@drawable/ic_star_outline_red" />
 
         <TextView
-            android:id="@+id/linearLayout5"
+            android:id="@+id/scheduleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{merchant.opening + `am - ` + merchant.closing + `pm`}"
             tools:text="7:00am - 9:00pm"
             android:drawablePadding="@dimen/dp_8"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+            app:layout_constraintTop_toBottomOf="@+id/ratingTextView"
             app:drawableStartCompat="@drawable/ic_clock" />
 
         <TextView
@@ -100,7 +98,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            app:layout_constraintTop_toBottomOf="@+id/scheduleTextView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewRv"

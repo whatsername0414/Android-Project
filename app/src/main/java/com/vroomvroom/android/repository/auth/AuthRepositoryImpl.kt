@@ -2,9 +2,11 @@ package com.vroomvroom.android.repository.auth
 
 import android.util.Log
 import com.vroomvroom.android.data.api.AuthService
-import com.vroomvroom.android.data.db.dao.UserDao
-import com.vroomvroom.android.data.model.user.LocationEntity
-import com.vroomvroom.android.data.model.user.UserMapper
+import com.vroomvroom.android.data.local.dao.UserDao
+import com.vroomvroom.android.data.mapper.toUserEntity
+import com.vroomvroom.android.data.local.entity.user.AddressEntity
+import com.vroomvroom.android.data.model.user.Address
+import com.vroomvroom.android.data.remote.response.RegisterUserRequest
 import com.vroomvroom.android.repository.BaseRepository
 import com.vroomvroom.android.view.resource.Resource
 import javax.inject.Inject
@@ -12,20 +14,18 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val service: AuthService,
     private val userDao: UserDao,
-    private val userMapper: UserMapper
 ) : AuthRepository, BaseRepository() {
-    override suspend fun register(locationEntity: LocationEntity, fcmToken: String): Resource<Boolean>? {
+    override suspend fun register(fcmToken: String): Resource<Boolean>? {
         var data: Resource<Boolean>? = null
         try {
-            val body = HashMap<String, Any>()
-            body["location"] = locationEntity
-            body["fcmToken"] = fcmToken
-            body["type"] = "user"
-            val result = service.register(body)
+            val request = RegisterUserRequest(
+                token = fcmToken,
+                userType = "user"
+            )
+            val result = service.register(request)
             if (result.isSuccessful && result.code() == 200) {
-                result.body()?.data?.let {
-                    val user = userMapper.mapToDomainModel(it)
-                    userDao.insertUser(user)
+                result.body()?.data?.let { response ->
+                    userDao.insertUser(response.toUserEntity())
                     data = handleSuccess(true)
                 }
             } else {

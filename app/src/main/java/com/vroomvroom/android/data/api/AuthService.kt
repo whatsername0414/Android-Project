@@ -1,8 +1,8 @@
 package com.vroomvroom.android.data.api
 
 import com.vroomvroom.android.data.model.BaseResponse
-import com.vroomvroom.android.data.model.user.LocationEntity
-import com.vroomvroom.android.data.model.user.UserDto
+import com.vroomvroom.android.data.remote.response.RegisterUserRequest
+import com.vroomvroom.android.data.remote.response.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,8 +11,8 @@ interface AuthService {
 
     @POST("auth/register")
     suspend fun register(
-        @Body body: HashMap<String, Any>
-    ): Response<BaseResponse<UserDto>>
+        @Body body: RegisterUserRequest
+    ): Response<BaseResponse<UserResponse>>
 
     @POST("auth/email-otp")
     suspend fun generateEmailOtp(

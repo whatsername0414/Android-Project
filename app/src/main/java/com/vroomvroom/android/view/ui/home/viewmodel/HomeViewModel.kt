@@ -1,12 +1,15 @@
 package com.vroomvroom.android.view.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vroomvroom.android.data.model.cart.CartItemEntity
+import com.vroomvroom.android.data.local.entity.cart.CartItemEntity
+import com.vroomvroom.android.data.local.entity.merchant.SearchEntity
 import com.vroomvroom.android.data.model.merchant.Merchant
 import com.vroomvroom.android.data.model.merchant.Option
+import com.vroomvroom.android.data.model.search.Search
 import com.vroomvroom.android.repository.cart.CartRepository
 import com.vroomvroom.android.repository.merchant.MerchantRepository
 import com.vroomvroom.android.view.resource.Resource
@@ -34,6 +37,7 @@ class HomeViewModel @Inject constructor(
     lateinit var currentMerchantId: String
     var choseOptions = mutableMapOf<String, Option>()
     val isCartCardViewVisible by lazy { MutableLiveData(false) }
+    val searches = merchantRepository.getAllSearch()
 
     fun getMerchant(merchantId: String){
         _merchant.postValue(Resource.Loading)
@@ -107,6 +111,18 @@ class HomeViewModel @Inject constructor(
     fun deleteAllCartItemChoice() {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.deleteAllCartItemOption()
+        }
+    }
+
+    fun insertSearch(search: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            merchantRepository.insertSearch(search)
+        }
+    }
+
+    fun deleteSearch(search: Search) {
+        viewModelScope.launch(Dispatchers.IO) {
+            merchantRepository.deleteSearch(search)
         }
     }
 }

@@ -9,19 +9,17 @@ data class Merchant(
     val id: String,
     val name: String,
     val image: String,
-    val categories: List<String>,
-    val productSections: @RawValue List<ProductSections>?,
-    val rates: Int?,
-    val ratings: Double?,
-    var favorite: Boolean?,
-    val location: List<Double>?,
+    val productSections: @RawValue List<ProductSection>,
+    val ratings: Double,
+    var isFavorite: Boolean,
+    val address: List<Double>,
     val opening: Int,
     val closing: Int,
     val isOpen: Boolean,
-    val reviews: @RawValue List<Review>?
+    val reviews: @RawValue List<Review>
 ) : Parcelable
 
-data class ProductSections(
+data class ProductSection(
     val id: String,
     val name: String,
     val products: List<Product>
@@ -31,27 +29,29 @@ data class ProductSections(
 data class Product(
     val id: String,
     val name: String,
-    val image: String?,
-    val price: Double,
-    val description: String?,
-    val optionSections: @RawValue List<OptionSections>?
+    val image: String,
+    val price: Float,
+    val description: String,
+    val optionSections: @RawValue List<OptionSection>?
 ) : Parcelable
 
-data class OptionSections(
+data class OptionSection(
+    val id: String,
     val name: String,
     val required: Boolean,
     val options: List<Option>
 )
 
 data class Option(
+    val id: String,
     val name: String,
-    val price: Double?
+    val price: Float
 )
 
 data class Review(
     val id: String,
-    val userId: String,
-    val comment: String?,
-    val rate: Int,
-    val createdAt: Long
+    val userName: String,
+    val comment: String,
+    val rating: Int,
+    val createdAt: String
 )

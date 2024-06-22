@@ -2,7 +2,6 @@ package com.vroomvroom.android.view.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -13,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.vroomvroom.android.R
 import com.vroomvroom.android.databinding.FragmentMerchantInfoBinding
 import com.vroomvroom.android.utils.Constants
+import com.vroomvroom.android.utils.Utils
 import com.vroomvroom.android.utils.Utils.setMap
 import com.vroomvroom.android.view.ui.base.BaseFragment
 import com.vroomvroom.android.view.ui.home.adapter.ReviewAdapter
@@ -46,21 +46,27 @@ class MerchantInfoFragment : BaseFragment<FragmentMerchantInfoBinding>(
         val merchant = mainActivityViewModel.merchant
         binding.merchant = merchant
         adapter.submitList(merchant.reviews)
-        Log.d("MerchantInfoFragment", merchant.location.toString())
-        merchant.location?.let { location ->
-            merchantLocation = LatLng(
-                location[0],
-                location[1]
-            )
-            locationViewModel.getAddress(merchantLocation)
-        }
+        binding.ratingTextView.text = if (merchant.ratings.isNaN()) "No Reviews" else
+            "${merchant.ratings} (${merchant.reviews.size} ${if (merchant.reviews.size == 1) "Review"
+            else "Reviews"})"
+        binding.scheduleTextView.text = getString(
+            R.string.time,
+            Utils.timeFormatter(merchant.opening),
+            Utils.timeFormatter(merchant.closing)
+        )
+        merchantLocation = LatLng(
+            merchant.address[0],
+            merchant.address[1]
+        )
+        locationViewModel.getAddress(merchantLocation)
     }
 
     @SuppressLint("SetTextI18n")
     private fun observeAddress() {
         locationViewModel.address.observe(viewLifecycleOwner) { res ->
             res?.let {
-                binding.locationDetailBottomSheet.text = "${it.thoroughfare}, ${it.locality}"
+                binding.locationDetailTextView.text = if (res.thoroughfare.isNullOrEmpty()) res.locality
+                    else "${it.thoroughfare}, ${it.locality}"
             }
         }
     }
