@@ -55,8 +55,8 @@ class MerchantInfoFragment : BaseFragment<FragmentMerchantInfoBinding>(
             Utils.timeFormatter(merchant.closing)
         )
         merchantLocation = LatLng(
-            merchant.address[0],
-            merchant.address[1]
+            merchant.latLong[0],
+            merchant.latLong[1]
         )
         locationViewModel.getAddress(merchantLocation)
     }

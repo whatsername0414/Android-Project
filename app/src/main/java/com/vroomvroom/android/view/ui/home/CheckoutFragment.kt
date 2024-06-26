@@ -69,10 +69,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                     .actionCheckoutFragmentToAddressesFragment(null)
             )
         }
-
-        binding.editPaymentMethod.setOnClickListener {
-            navController.navigate(R.id.action_checkoutFragment_to_paymentMethodFragment)
-        }
     }
 
     private fun observeUser() {
@@ -117,8 +113,8 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                         val point1 =
                             LatLng(it.latitude, it.longitude)
                         val point2 = LatLng(
-                            res.data.address[0],
-                            res.data.address[1]
+                            res.data.latLong[0],
+                            res.data.latLong[1]
                         )
                         val boundsBuilder = LatLngBounds.Builder()
                             .include(point1)
@@ -171,7 +167,6 @@ class CheckoutFragment : BaseFragment<FragmentCheckoutBinding> (
                     loadingDialog.show(getString(R.string.creating_order))
                 }
                 is Resource.Success -> {
-                    Log.d("OrderId", "Order ID: ${response.data}")
                     homeViewModel.cartItem.removeObservers(viewLifecycleOwner)
                     homeViewModel.deleteAllCartItem()
                     loadingDialog.dismiss()

@@ -20,7 +20,7 @@ fun MerchantResponse?.toMerchant(): Merchant {
         closing = this?.closing ?: 0,
         id = this?.id.orEmpty(),
         image = this?.image.orEmpty(),
-        address = this?.location.orEmpty(),
+        latLong = this?.location.orEmpty(),
         name = this?.name.orEmpty(),
         opening = this?.opening ?: 0,
         productSections = this?.productSections?.map { it.toProductSection() }.orEmpty(),

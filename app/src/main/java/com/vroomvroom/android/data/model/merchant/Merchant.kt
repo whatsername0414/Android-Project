@@ -12,7 +12,7 @@ data class Merchant(
     val productSections: @RawValue List<ProductSection>,
     val ratings: Double,
     var isFavorite: Boolean,
-    val address: List<Double>,
+    val latLong: List<Double>,
     val opening: Int,
     val closing: Int,
     val isOpen: Boolean,

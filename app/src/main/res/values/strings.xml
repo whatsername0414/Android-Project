@@ -15,7 +15,7 @@
     <string name="fb_login_protocol_scheme">fb593283722014887</string>
     <string name="facebook_client_token">dd589d0b733000634328ead72eeec53b</string>
     <string name="special_instructions">Special Instructions</string>
-    <string name="delivery_address">Delivery address</string>
+    <string name="delivery_address">Delivery Address</string>
     <string name="to_check_out">Go to checkout</string>
     <string name="delivery_fee">Delivery Fee</string>
     <string name="subtotal">Subtotal</string>
@@ -46,7 +46,7 @@
     <string name="add_a_new_address">Add a new address</string>
     <string name="current_location">Current Location</string>
     <string name="update_address">Update address</string>
-    <string name="payment_method">Payment method</string>
+    <string name="payment_details">Payment Details</string>
     <string name="add_a_payment_method">Add a payment method</string>
     <string name="checkout">Checkout</string>
     <string name="terms_and_policy">By continuing, you agree to our &lt;a href=\"https://vroomvroom.store/en/content/termsandconditions\"&gt;Terms and Conditions&lt;/a&gt; and &lt;a href=\"https://vroomvroom.store/en/page/admin/privacypolicy\"&gt;Privacy Policy&lt;/a&gt;.</string>

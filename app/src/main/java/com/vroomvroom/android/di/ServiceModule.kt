@@ -64,7 +64,7 @@ object ServiceModule {
         moshi: Moshi,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.12:5000/api/v1/")
+            .baseUrl("http://192.168.1.26:5000/api/v1/")
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
